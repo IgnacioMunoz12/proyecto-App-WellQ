@@ -1,0 +1,27 @@
+name: maquetaappwellq
+description: "primera maqueta de aplicación"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.9.2 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  device_info_plus: ^12.1.0
+  firebase_auth: ^6.0.2
+  firebase_core: ^4.1.0
+  health: ^13.2.0
+  intl: ^0.18.1
+  permission_handler: ^11.4.0
+  cupertino_icons: ^1.0.8
+  shared_preferences: ^2.3.2
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
