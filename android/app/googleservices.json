@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "271224890891",
+    "project_id": "appwellq",
+    "storage_bucket": "appwellq.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271224890891:android:3f6072071500234744490e",
+        "android_client_info": {
+          "package_name": "com.example.app_wellq"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMlrDPaME_-q7tLqFVrafROkpbvckbkZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,375 @@
+{
+  "@@locale": "en",
+
+  "appName": "WellQ",
+  "tagline": "Your Health, Our Priority",
+
+  "signUp": "Sign Up",
+  "signIn": "Sign In",
+  "orContinueWith": "or continue with",
+  "loginCanceled": "Sign-in canceled.",
+  "loginError": "Error signing in: {error}",
+  "@loginError": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+
+  "navHealth": "Health",
+  "navAnalytics": "Analytics",
+  "navCalendar": "Calendar",
+  "navCommit": "Commit",
+  "navSettings": "Settings",
+
+  "settingsTitle": "Settings",
+  "settingsTheme": "Theme",
+  "settingsThemeSubtitle": "Light/Dark mode",
+  "settingsNotifications": "Notifications",
+  "settingsNotificationsSubtitle": "Configure alerts",
+
+  "settingsLanguage": "Language",
+  "settingsLanguageValueSystem": "Follow system",
+  "settingsLanguageValueEs": "Spanish",
+  "settingsLanguageValueEn": "English",
+
+  "devTools": "Developer Tools",
+  "dbViewer": "Database Viewer",
+  "dbViewerSubtitle": "View and manage local database",
+  "insertTestHealthData": "Insert Test Health Data",
+  "insertTestHealthDataSubtitle": "Populate Health Connect with sample data",
+  "clearTestData": "Clear Test Data",
+  "clearTestDataSubtitle": "Remove all test health data",
+  "forceSaveMetrics": "Force Save Metrics",
+  "forceSaveMetricsSubtitle": "Save current health data to database",
+
+  "confirmClearTitle": "Clear Test Data?",
+  "confirmClearBody": "This will delete all test health data from Health Connect. Your habits and other app data will remain safe.",
+  "cancel": "Cancel",
+  "clear": "Clear",
+  "insertingTestData": "Inserting test data...",
+  "insertOk": "Test data inserted successfully!",
+  "insertFail": "Error: {error}",
+  "@insertFail": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "clearOk": "Test data cleared",
+  "clearFail": "Error: {error}",
+  "@clearFail": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "checkLogs": "Check logs for details",
+
+  "dailyCommitmentsTitle": "Daily Commitments",
+  "todaysProgress": "Today's Progress",
+  "commitmentsCompleted": "{done}/{total} commitments completed",
+  "@commitmentsCompleted": {
+    "placeholders": {
+      "done": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+
+  "start": "Start",
+  "refreshData": "Refresh Data",
+
+  "calendarTitle": "Calendar",
+  "todaysEvents": "Today's Events",
+  "noEventsToday": "No events for today",
+  "reminders": "Reminders",
+
+  "aiSessionTitle": "AI-Optimized Session",
+  "aiSessionSubtitle": "Mobility focus · {minutes} min",
+  "@aiSessionSubtitle": {
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "basedOnRecovery": "Based on your recovery data",
+
+  "healthVitals": "Health Vitals",
+  "vitalsTab": "Vitals",
+  "metricsTab": "Metrics",
+  "healthMetrics": "Health Metrics",
+
+  "stepsLabel": "Steps",
+  "sleepLabel": "Sleep",
+  "weightLabel": "Weight",
+  "weightUnitKg": "kg",
+  "exerciseLabel": "Exercise",
+  "stressLabel": "Stress",
+  "currentLabel": "Current",
+  "noData": "No data",
+
+  "statusLow": "Low",
+  "statusModerate": "Moderate",
+  "statusHigh": "High",
+  "statusNormal": "Normal",
+  "statusOptimal": "Optimal",
+  "statusLight": "Light",
+
+  "usingMockData": "Using mock data",
+  "updatedAgo": "Updated {time}",
+  "@updatedAgo": {
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+  "timeJustNow": "just now",
+  "timeMinutes": "{m}m",
+  "@timeMinutes": {
+    "placeholders": {
+      "m": { "type": "int" }
+    }
+  },
+  "timeHours": "{h}h",
+  "@timeHours": {
+    "placeholders": {
+      "h": { "type": "int" }
+    }
+  },
+  "timeDays": "{d}d",
+  "@timeDays": {
+    "placeholders": {
+      "d": { "type": "int" }
+    }
+  },
+
+  "recoveryOptimization": "Recovery Optimization",
+  "recoveryLabel": "Recovery",
+  "heartRateLabel": "Heart Rate",
+  "recoveryBreadcrumb": "{program} \u2022 Day {day}",
+  "@recoveryBreadcrumb": {
+    "placeholders": {
+      "program": { "type": "String" },
+      "day": { "type": "int" }
+    }
+  },
+  "weeklyChange": "{percent} this week",
+  "@weeklyChange": {
+    "placeholders": {
+      "percent": { "type": "String" }
+    }
+  },
+  "connectHealth": "Connect Health",
+
+  "boneLabel": "Bone",
+  "densityLabel": "Density",
+  "muscleLabel": "Muscle",
+  "strengthLabel": "Strength",
+  "jointLabel": "Joint",
+  "mobilityLabel": "Mobility",
+  "cardioLabel": "Cardio",
+  "vo2maxLabel": "VO2 Max",
+
+  "startStreak": "Start streak",
+  "streakActiveDays": "{days}-day streak",
+  "@streakActiveDays": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+
+  "todaysHabitsTitle": "Today's Habits",
+  "minutesShort": "{minutes} min",
+  "@minutesShort": {
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "pending": "Pending",
+
+  "habitPending": "Pending",
+  "habitDone": "Completed",
+  "minutes": "{count} minutes",
+  "@minutes": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "pause": "Pause",
+  "completeAction": "Complete",
+  "completeEarly": "Complete Early",
+  "skipToNext": "Skip to Next",
+  "completeNow": "Complete Now",
+  "stepOfTotal": "Step {step} of {total}",
+  "@stepOfTotal": {
+    "placeholders": {
+      "step": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+
+  "habitSnackStart": "Great start! Begin your streak!",
+  "habitSnackNewRecord": "New record! {days}-day streak!",
+  "habitSnackAmazing": "Amazing! {days}-day streak!",
+  "habitSnackCompleted": "Habit completed! {days}-day streak!",
+  "@habitSnackNewRecord": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "@habitSnackAmazing": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "@habitSnackCompleted": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+
+  "noHabitsYet": "No habits yet",
+  "addFirstHabit": "Add your first habit to get started",
+
+  "habitMorningStretches": "Morning Stretches",
+  "habitPhysicalTherapy": "Physical Therapy",
+  "habitEveningWalk": "Evening Walk",
+  "habitMeditation": "Meditation",
+
+  "languageUpdated": "Language updated",
+  "createAccountHeader": "CREATE ACCOUNT",
+  "joinCommunity": "Join our health community",
+  "usernameLabel": "Username",
+  "usernameHint": "Enter your username",
+  "emailLabel": "Email",
+  "emailHint": "Enter your email",
+  "passwordLabel": "Password",
+  "passwordHint": "Enter your password",
+  "confirmPasswordLabel": "Confirm Password",
+  "confirmPasswordHint": "Confirm your password",
+  "orSignUpWith": "or sign up with",
+  "alreadyHaveAccount": "Already have an account? ",
+  "createAccountCta": "Create Account",
+  "accountCreatedOk": "Account created successfully!",
+
+  "registrationFailed": "Registration failed: {error}",
+  "@registrationFailed": {
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "pleaseEnterUsername": "Please enter your username",
+  "pleaseEnterValidEmail": "Please enter a valid email",
+  "passwordMinChars": "Password must be at least {min} characters",
+  "@passwordMinChars": {
+    "placeholders": {
+      "min": { "type": "int" }
+    }
+  },
+  "passwordsDontMatch": "Passwords don't match",
+  "pleaseAcceptTerms": "Please accept Terms & Conditions",
+  "emailAlreadyRegistered": "This email is already registered",
+  "passwordTooWeak": "Password is too weak",
+  "invalidEmailFormat": "Invalid email format",
+  "registrationGenericError": "Registration failed. Please try again.",
+  "enterEmailAndPassword": "Please enter email and password",
+  "wrongCredentials": "Incorrect email or password",
+  "userDisabled": "This account has been disabled",
+  "tooManyRequests": "Too many attempts. Try again later",
+  "networkError": "Connection error. Check your internet",
+  "signInGenericError": "Failed to sign in. Try again",
+  "signInButton": "Sign In",
+  "unexpectedError": "Unexpected error. Try again",
+  "hiUser": "Hi, {name}",
+  "@hiUser": { "placeholders": { "name": { "type": "String" } } },
+
+  "myTrainingOverline": "My training",
+  "progressLabel": "Progress",
+  "sessionsXofY": "Sessions: {done}/{total}",
+  "@sessionsXofY": { "placeholders": { "done": { "type": "int" }, "total": { "type": "int" } } },
+  "planSessions": "{count}-session plan",
+  "@planSessions": { "placeholders": { "count": { "type": "int" } } },
+  "goalPerWeek": "Goal: {count}/week",
+  "@goalPerWeek": { "placeholders": { "count": { "type": "int" } } },
+
+  "nextWorkoutOverline": "Next workout",
+  "openMyWorkout": "Open my workout",
+  "todayWorkoutSubtitle": "Today {time} \u2022 Category {category}",
+  "@todayWorkoutSubtitle": { "placeholders": { "time": { "type": "String" }, "category": { "type": "String" } } },
+  "seeOtherWorkouts": "See other workout options",
+
+  "yourRoutineOverline": "Your routine",
+  "consecutiveTrainingWeeks": "Consecutive\ntraining weeks",
+  "trainingCommitment": "Training\ncommitment",
+
+  "treatmentCategoriesTitle": "Treatment Categories",
+  "recoveryProgramTitle": "Recovery Program",
+  "therapeuticExercisesRehab": "Therapeutic exercises for rehabilitation",
+  "recoveryExercisesCount": "{count} recovery exercises",
+  "@recoveryExercisesCount": { "placeholders": { "count": { "type": "int" } } },
+  "injuryLigamentTear": "Ligament Tear",
+  "injuryRotatorCuff": "Rotator Cuff Issues",
+  "injuryTendinitis": "Tendinitis",
+
+  "categoryTitle": "Category {letter}",
+  "@categoryTitle": { "placeholders": { "letter": { "type": "String" } } },
+  "therapeuticRecoveryExercises": "Therapeutic recovery exercises",
+  "tapForInstructions": "Tap for instructions",
+  "completeSession": "Complete session",
+  "sessionSaved": "Session completed and saved",
+
+  "exerciseInstructionsTitle": "Exercise Instructions",
+  "stepByStepInstructions": "Step-by-step instructions",
+  "safetyTips": "Safety tips",
+  "backToExerciseList": "Back to exercise list",
+
+  "todaysCheckInTitle": "Today's check-in",
+  "checkInSubtitle": "Tell us how you feel after the session.",
+  "painLevel": "Pain level",
+  "stiffness": "Stiffness",
+  "howDoYouFeelToday": "How do you feel today?",
+  "anyObservationsHint": "Any observations?",
+  "send": "Send",
+
+  "statusImproving": "Improving",
+  "statusFlexible": "Flexible",
+  "statusStable": "Stable",
+  "statusStiff": "Stiff",
+  "iAgreeTo": "I agree to the ",
+  "termsAndConditions": "Terms & Conditions",
+  "and": "and",
+  "privacyPolicy": "Privacy Policy",
+  "calendarSubtitle": "Schedule and track your recovery activities",
+  "reminderTakeMedication": "Take medication",
+  "reminderIceTherapy": "Ice therapy session",
+  "reminderLogPainLevels": "Log pain levels",
+  "dueIn": "Due in {time}",
+  "@dueIn": { "placeholders": { "time": { "type": "String" } } },
+  "healthPermsTitle": "Health Permissions Required",
+  "healthPermsBody": "Please grant access to Health Connect to track your daily commitments and health metrics",
+  "grantPermissions": "Grant Permissions",
+  "goToDashboard": "Go to Dashboard",
+
+  "commitDrinkWater": "Drink {liters} liters of water",
+  "@commitDrinkWater": { "placeholders": { "liters": { "type": "int" } } },
+  "commitSleepHours": "Sleep {hours} hours",
+  "@commitSleepHours": { "placeholders": { "hours": { "type": "int" } } },
+  "commitConsumeCalories": "Consume {kcals} calories",
+  "@commitConsumeCalories": { "placeholders": { "kcals": { "type": "int" } } },
+
+  "unitSteps": "steps",
+
+  "commitWalkSteps": "Walk {count} steps",
+  "@commitWalkSteps": { "placeholders": { "count": { "type": "int" } } },
+  "commitDrinkWaterLiters": "Drink {liters} liters of water",
+  "@commitDrinkWaterLiters": { "placeholders": { "liters": { "type": "int" } } },
+
+  "unitStepsShort": "steps",
+  "unitLitersShort": "L",
+  "unitHours": "hours",
+  "unitKcal": "kcal",
+
+  "dayStreak": "Day Streak",
+  "longestStreak": "Your longest streak: {days} days",
+  "@longestStreak": { "placeholders": { "days": { "type": "int" } } }
+}
+
+
+
+

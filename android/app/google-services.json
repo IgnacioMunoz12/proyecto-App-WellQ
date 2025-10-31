@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "271224890891",
+    "project_id": "appwellq",
+    "storage_bucket": "appwellq.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271224890891:android:3f6072071500234744490e",
+        "android_client_info": {
+          "package_name": "com.example.app_wellq"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271224890891-e29al92p14cfr8sgsku8s09ghc32g5qa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.app_wellq",
+            "certificate_hash": "17dfabff95eaff50f68bf0204164567a9f403746"
+          }
+        },
+        {
+          "client_id": "271224890891-g0l09sqblpbtmv642n8bbbm71bv53r95.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.app_wellq",
+            "certificate_hash": "a5dd14563a86910eb10c5b12f7b65777179423a7"
+          }
+        },
+        {
+          "client_id": "271224890891-chfe6vlvfk1q8v4847l46v4rdfr377oh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMlrDPaME_-q7tLqFVrafROkpbvckbkZA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "271224890891-chfe6vlvfk1q8v4847l46v4rdfr377oh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "271224890891-9kea69agct0id7g6dgi8trt6v849mj5o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.maquetaappwellq"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

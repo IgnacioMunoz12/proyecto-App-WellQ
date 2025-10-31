@@ -1,0 +1,413 @@
+{
+  "@@locale": "es",
+  "appName": "WellQ",
+
+  "tagline": "Tu salud, nuestra prioridad",
+  "signUp": "Crear cuenta",
+  "signIn": "Iniciar sesión",
+  "orContinueWith": "o continúa con",
+  "loginCanceled": "Inicio de sesión cancelado.",
+  "loginError": "Error al iniciar sesión: {error}",
+  "@loginError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+
+  "navHealth": "Salud",
+  "navAnalytics": "Analítica",
+  "navCalendar": "Calendario",
+  "navCommit": "Compromisos",
+  "navSettings": "Ajustes",
+
+  "settingsTitle": "Ajustes",
+  "settingsTheme": "Tema",
+  "settingsThemeSubtitle": "Modo claro/oscuro",
+  "settingsNotifications": "Notificaciones",
+  "settingsNotificationsSubtitle": "Configurar alertas",
+
+  "settingsLanguage": "Idioma",
+  "settingsLanguageValueSystem": "Seguir sistema",
+  "settingsLanguageValueEs": "Español",
+  "settingsLanguageValueEn": "Inglés",
+
+  "devTools": "Herramientas de desarrollo",
+  "dbViewer": "Visor de base de datos",
+  "dbViewerSubtitle": "Ver y administrar la base de datos local",
+  "insertTestHealthData": "Insertar datos de prueba",
+  "insertTestHealthDataSubtitle": "Llenar Health Connect con datos de ejemplo",
+  "clearTestData": "Borrar datos de prueba",
+  "clearTestDataSubtitle": "Eliminar todos los datos de prueba",
+  "forceSaveMetrics": "Forzar guardado de métricas",
+  "forceSaveMetricsSubtitle": "Guardar datos de salud actuales en la base",
+
+  "confirmClearTitle": "¿Borrar datos de prueba?",
+  "confirmClearBody": "Esto eliminará todos los datos de prueba de Health Connect. Tus hábitos y otros datos de la app se mantendrán.",
+  "cancel": "Cancelar",
+  "clear": "Borrar",
+  "insertingTestData": "Insertando datos de prueba...",
+  "insertOk": "¡Datos de prueba insertados correctamente!",
+  "insertFail": "Error: {error}",
+  "@insertFail": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "clearOk": "Datos de prueba eliminados",
+  "clearFail": "Error: {error}",
+  "@clearFail": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "checkLogs": "Revisa los logs para más detalles",
+
+  "dailyCommitmentsTitle": "Compromisos diarios",
+  "todaysProgress": "Progreso de hoy",
+  "commitmentsCompleted": "{done}/{total} compromisos completados",
+  "@commitmentsCompleted": {
+    "placeholders": {
+      "done": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+  "start": "Iniciar",
+  "refreshData": "Actualizar datos",
+
+  "calendarTitle": "Calendario",
+  "todaysEvents": "Eventos de hoy",
+  "noEventsToday": "No hay eventos para hoy",
+  "reminders": "Recordatorios",
+
+  "aiSessionTitle": "Sesión optimizada por IA",
+  "aiSessionSubtitle": "Enfoque movilidad · {minutes} min",
+  "@aiSessionSubtitle": {
+    "placeholders": {
+      "minutes": { "type": "int" }
+    }
+  },
+  "basedOnRecovery": "Según tus datos de recuperación",
+
+  "healthVitals": "Signos de salud",
+  "vitalsTab": "Signos",
+  "metricsTab": "Métricas",
+
+  "stepsLabel": "Pasos",
+  "sleepLabel": "Sueño",
+  "weightUnitKg": "kg",
+
+  "languageUpdated": "Idioma actualizado",
+  "createAccountHeader": "CREAR CUENTA",
+  "joinCommunity": "Únete a nuestra comunidad de salud",
+  "usernameLabel": "Usuario",
+  "usernameHint": "Ingresa tu usuario",
+  "emailLabel": "Email",
+  "emailHint": "Ingresa tu email",
+  "passwordLabel": "Contraseña",
+  "passwordHint": "Ingresa tu contraseña",
+  "confirmPasswordLabel": "Confirmar contraseña",
+  "confirmPasswordHint": "Confirma tu contraseña",
+
+  "iAgreeTo": "Acepto los ",
+  "termsAndConditions": "Términos y Condiciones",
+  "and": "y",
+  "privacyPolicy": "Política de Privacidad",
+
+  "orSignUpWith": "o regístrate con",
+  "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+  "createAccountCta": "Crear cuenta",
+  "accountCreatedOk": "¡Cuenta creada correctamente!",
+
+  "registrationFailed": "Registro fallido: {error}",
+  "@registrationFailed": {
+    "placeholders": { "error": { "type": "String" } }
+  },
+  "pleaseEnterUsername": "Ingresa tu nombre de usuario",
+  "pleaseEnterValidEmail": "Ingresa un email válido",
+  "passwordMinChars": "La contraseña debe tener al menos {min} caracteres",
+  "@passwordMinChars": {
+    "placeholders": { "min": { "type": "int" } }
+  },
+  "passwordsDontMatch": "Las contraseñas no coinciden",
+  "pleaseAcceptTerms": "Acepta los Términos y Condiciones",
+  "emailAlreadyRegistered": "Este email ya está registrado",
+  "passwordTooWeak": "La contraseña es demasiado débil",
+  "invalidEmailFormat": "Formato de email inválido",
+  "registrationGenericError": "No se pudo completar el registro. Intenta nuevamente.",
+
+  "enterEmailAndPassword": "Ingresa email y contraseña",
+  "wrongCredentials": "Email o contraseña incorrectos",
+  "userDisabled": "Esta cuenta ha sido deshabilitada",
+  "tooManyRequests": "Demasiados intentos. Intenta más tarde",
+  "networkError": "Error de conexión. Verifica tu internet",
+  "signInGenericError": "Error al iniciar sesión. Intenta nuevamente",
+  "unexpectedError": "Error inesperado. Intenta nuevamente",
+  "signInButton": "Iniciar sesión",
+  "healthMetrics": "Métricas de salud",
+  "recoveryOptimization": "Optimización de recuperación",
+  "recoveryLabel": "Recuperación",
+  "heartRateLabel": "Frecuencia cardiaca",
+  "currentLabel": "Actual",
+  "noData": "Sin datos",
+  "exerciseLabel": "Ejercicio",
+  "stressLabel": "Estrés",
+
+  "statusLow": "Bajo",
+  "statusModerate": "Moderado",
+  "statusHigh": "Alto",
+  "statusNormal": "Normal",
+  "statusOptimal": "Óptimo",
+  "statusLight": "Ligero",
+
+  "weightLabel": "Peso",
+
+  "usingMockData": "Usando datos simulados",
+  "updatedAgo": "Actualizado {time}",
+  "@updatedAgo": {
+    "placeholders": { "time": { "type": "String" } }
+  },
+  "timeJustNow": "justo ahora",
+  "timeMinutes": "{m} min",
+  "@timeMinutes": { "placeholders": { "m": { "type": "int" } } },
+  "timeHours": "{h} h",
+  "@timeHours": { "placeholders": { "h": { "type": "int" } } },
+  "timeDays": "{d} d",
+  "@timeDays": { "placeholders": { "d": { "type": "int" } } },
+
+  "recoveryBreadcrumb": "{program} \u2022 Día {day}",
+  "@recoveryBreadcrumb": {
+    "placeholders": {
+      "program": { "type": "String" },
+      "day": { "type": "int" }
+    }
+  },
+  "weeklyChange": "{percent} esta semana",
+  "@weeklyChange": { "placeholders": { "percent": { "type": "String" } } },
+
+  "connectHealth": "Conectar Health",
+
+  "boneLabel": "Hueso",
+  "densityLabel": "Densidad",
+  "muscleLabel": "Músculo",
+  "strengthLabel": "Fuerza",
+  "jointLabel": "Articulación",
+  "mobilityLabel": "Movilidad",
+  "cardioLabel": "Cardio",
+  "vo2maxLabel": "VO2 Máx",
+  "startStreak": "Iniciar racha",
+  "todaysHabitsTitle": "Hábitos de hoy",
+  "minutesShort": "{minutes} min",
+  "pending": "Pendiente",
+  "todaysHabitsTitle": "Hábitos de hoy",
+  "habitPending": "Pendiente",
+  "habitDone": "Completado",
+  "minutes": "{minutes} min",
+  "@minutes": { "placeholders": { "minutes": { "type": "int" } } },
+
+  "startStreak": "Iniciar racha",
+  "streakActiveDays": "Racha: {days} días",
+  "@streakActiveDays": { "placeholders": { "days": { "type": "int" } } },
+
+  "habitMorningStretches": "Estiramientos matutinos",
+  "habitPhysicalTherapy": "Fisioterapia",
+  "habitEveningWalk": "Caminata vespertina",
+  "habitMeditation": "Meditación",
+  "pause": "Pausar",
+  "cancel": "Cancelar",
+  "skipToNext": "Saltar al siguiente",
+  "completeNow": "Completar ahora",
+  "completeEarly": "Completar antes",
+  "completeAction": "Completar",
+  "noHabitsYet": "Aún no tienes hábitos",
+  "addFirstHabit": "Añade tu primer hábito para comenzar",
+  "stepOfTotal": "Paso {step} de {total}",
+  "@stepOfTotal": { "placeholders": { "step": { "type": "int" }, "total": { "type": "int" } } },
+
+  "habitSnackStart": "¡Gran inicio! ¡Comienza tu racha!",
+  "habitSnackNewRecord": "¡Nuevo récord! ¡{days} días de racha!",
+  "habitSnackAmazing": "¡Asombroso! ¡{days} días de racha!",
+  "habitSnackCompleted": "¡Hábito completado! ¡{days} días de racha!",
+  "@habitSnackNewRecord": { "placeholders": { "days": { "type": "int" } } },
+  "@habitSnackAmazing":   { "placeholders": { "days": { "type": "int" } } },
+  "@habitSnackCompleted": { "placeholders": { "days": { "type": "int" } } },
+  "todaysHabitsTitle": "Hábitos de hoy",
+
+  "startStreak": "Comenzar racha",
+  "streakActiveDays": "Racha: {days} días",
+  "@streakActiveDays": { "placeholders": { "days": { "type": "int" } } },
+
+  "habitPending": "Pendiente",
+  "habitDone": "Completado",
+  "minutes": "{count} minutos",
+  "@minutes": { "placeholders": { "count": { "type": "int" } } },
+
+  "pause": "Pausar",
+  "cancel": "Cancelar",
+  "completeAction": "Completar",
+  "completeEarly": "Completar antes",
+  "skipToNext": "Saltar al siguiente",
+  "completeNow": "Completar ahora",
+  "stepOfTotal": "Paso {step} de {total}",
+  "@stepOfTotal": { "placeholders": { "step": { "type": "int" }, "total": { "type": "int" } } },
+
+  "habitSnackStart": "¡Gran inicio! ¡Comienza tu racha!",
+  "habitSnackNewRecord": "¡Nuevo récord! ¡{days} días de racha!",
+  "habitSnackAmazing": "¡Asombroso! ¡{days} días de racha!",
+  "habitSnackCompleted": "¡Hábito completado! ¡{days} días de racha!",
+  "@habitSnackNewRecord": { "placeholders": { "days": { "type": "int" } } },
+  "@habitSnackAmazing":   { "placeholders": { "days": { "type": "int" } } },
+  "@habitSnackCompleted": { "placeholders": { "days": { "type": "int" } } },
+
+  "noHabitsYet": "Aún no tienes hábitos",
+  "addFirstHabit": "Añade tu primer hábito para comenzar",
+
+  "habitMorningStretches": "Estiramientos matutinos",
+  "habitPhysicalTherapy": "Fisioterapia",
+  "habitEveningWalk": "Caminata vespertina",
+  "habitMeditation": "Meditación",
+  "hiUser": "Hola, {name}",
+
+  "myTrainingOverline": "Mi entrenamiento",
+  "progressLabel": "Progreso",
+  "sessionsXofY": "Sesiones: {done}/{total}",
+  "planSessions": "Plan de {count} sesiones",
+  "goalPerWeek": "Meta: {count}/sem",
+
+  "nextWorkoutOverline": "Próximo entrenamiento",
+  "openMyWorkout": "Abrir mi rutina",
+  "todayWorkoutSubtitle": "Hoy {time} \u2022 Categoría {category}",
+  "seeOtherWorkouts": "Ver otras opciones de entrenamiento",
+
+  "yourRoutineOverline": "Tu rutina",
+  "consecutiveTrainingWeeks": "Semanas\nconsecutivas",
+  "trainingCommitment": "Compromiso\nde entrenamiento",
+
+  "treatmentCategoriesTitle": "Categorías de tratamiento",
+  "recoveryProgramTitle": "Programa de recuperación",
+  "therapeuticExercisesRehab": "Ejercicios terapéuticos para rehabilitación",
+  "recoveryExercisesCount": "{count} ejercicios de recuperación",
+  "injuryLigamentTear": "Desgarro de ligamento",
+  "injuryRotatorCuff": "Manguito rotador",
+  "injuryTendinitis": "Tendinitis",
+
+  "categoryTitle": "Categoría {letter}",
+  "therapeuticRecoveryExercises": "Ejercicios terapéuticos de recuperación",
+  "tapForInstructions": "Toca para ver instrucciones",
+  "completeSession": "Completar sesión",
+  "sessionSaved": "Sesión completada y guardada",
+
+  "exerciseInstructionsTitle": "Instrucciones del ejercicio",
+  "stepByStepInstructions": "Instrucciones paso a paso",
+  "safetyTips": "Consejos de seguridad",
+  "backToExerciseList": "Volver a la lista de ejercicios",
+
+  "todaysCheckInTitle": "Chequeo de hoy",
+  "checkInSubtitle": "Cuéntanos cómo te sientes tras la sesión.",
+  "painLevel": "Nivel de dolor",
+  "stiffness": "Rigidez",
+  "howDoYouFeelToday": "¿Cómo te sientes hoy?",
+  "anyObservationsHint": "¿Alguna observación?",
+  "send": "Enviar",
+
+  "statusImproving": "Mejorando",
+  "statusFlexible": "Flexible",
+  "statusStable": "Estable",
+  "statusStiff": "Rígido",
+  "iAgreeTo": "Acepto los ",
+  "termsAndConditions": "Términos y Condiciones",
+  "and": "y",
+  "privacyPolicy": "Política de Privacidad",
+  "calendarSubtitle": "Programa y lleva el control de tus actividades de recuperación",
+  "reminderTakeMedication": "Tomar medicamento",
+  "reminderIceTherapy": "Sesión de terapia con hielo",
+  "reminderLogPainLevels": "Registrar niveles de dolor",
+  "dueIn": "Vence en {time}",
+  "@dueIn": { "placeholders": { "time": { "type": "String" } } },
+  "healthPermsTitle": "Permisos de salud requeridos",
+  "healthPermsBody": "Concede acceso a Health Connect para registrar tus compromisos diarios y métricas de salud",
+  "grantPermissions": "Conceder permisos",
+  "goToDashboard": "Ir al panel",
+
+  "commitWalkSteps": "Caminar {count} pasos",
+  "@commitWalkSteps": { "placeholders": { "count": { "type": "int" } } },
+  "commitDrinkWater": "Beber {liters} litros de agua",
+  "@commitDrinkWater": { "placeholders": { "liters": { "type": "int" } } },
+  "commitSleepHours": "Dormir {hours} horas",
+  "@commitSleepHours": { "placeholders": { "hours": { "type": "int" } } },
+  "commitConsumeCalories": "Consumir {kcals} calorías",
+  "@commitConsumeCalories": { "placeholders": { "kcals": { "type": "int" } } },
+
+  "unitSteps": "pasos",
+  "unitLitersShort": "L",
+  "unitHours": "horas",
+  "unitKcal": "kcal",
+
+  "dayStreak": "Racha de días",
+  "longestStreak": "Tu racha más larga: {days} días",
+  "@longestStreak": { "placeholders": { "days": { "type": "int" } } },
+  "dailyCommitmentsTitle": "Compromisos diarios",
+  "todaysProgress": "Progreso de hoy",
+
+  "commitmentsCompleted": "{done}/{total} compromisos completados",
+  "@commitmentsCompleted": {
+    "placeholders": {
+      "done": { "type": "int" },
+      "total": { "type": "int" }
+    }
+  },
+
+  "commitWalkSteps": "Camina {count} pasos",
+  "@commitWalkSteps": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+
+  "commitDrinkWaterLiters": "Bebe {liters} litros de agua",
+  "@commitDrinkWaterLiters": {
+    "placeholders": {
+      "liters": { "type": "int" }
+    }
+  },
+
+  "commitSleepHours": "Duerme {hours} horas",
+  "@commitSleepHours": {
+    "placeholders": {
+      "hours": { "type": "int" }
+    }
+  },
+
+  "commitConsumeCalories": "Consume {kcals} calorías",
+  "@commitConsumeCalories": {
+    "placeholders": {
+      "kcal": { "type": "int" }
+    }
+  },
+
+  "unitStepsShort": "pasos",
+  "unitLitersShort": "L",
+  "unitHours": "horas",
+  "unitKcal": "kcal",
+
+  "dayStreak": "Racha de días",
+  "longestStreak": "Tu racha más larga: {days} días",
+  "@longestStreak": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+
+  "healthPermsTitle": "Se requieren permisos de salud",
+  "healthPermsBody": "Concede acceso a Health Connect para registrar tus compromisos diarios y métricas de salud",
+  "grantPermissions": "Conceder permisos",
+  "goToDashboard": "Ir al panel",
+
+  "refreshData": "Actualizar datos"
+
+}

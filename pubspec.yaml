@@ -1,0 +1,54 @@
+name: app_wellq
+description: "primera maqueta de aplicación"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.9.2 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # Core
+  cupertino_icons: ^1.0.8
+  shared_preferences: ^2.3.2
+  permission_handler: ^11.4.0
+  device_info_plus: ^12.1.0
+  android_intent_plus: ^5.0.2
+  path_provider: ^2.1.1
+  path: ^1.8.0
+
+  # Firebase / Auth
+  firebase_core: ^4.2.0
+  firebase_auth: ^6.1.1
+  google_sign_in: ^6.2.1
+
+  # Salud
+  health: ^13.2.0
+
+  # Base de datos (Drift + SQLite)
+  drift: ^2.16.0
+  sqlite3_flutter_libs: ^0.5.0
+  sqlite3: any
+
+  # Notificaciones y zona horaria
+  flutter_local_notifications: ^19.5.0
+  timezone: ^0.10.1
+
+  # Internacionalización
+  intl: ^0.20.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.7
+  drift_dev: ^2.16.0
+
+flutter:
+  uses-material-design: true
+  generate: true
