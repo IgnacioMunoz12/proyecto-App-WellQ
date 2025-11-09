@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- El debug manifest solo debe tener configuraciones específicas de debug -->
+
+    <!-- usesCleartextTraffic solo para desarrollo -->
+    <application
+        android:usesCleartextTraffic="true">
+        <!-- No necesita label, icon, ni actividades -->
+        <!-- Todo eso se hereda del main manifest -->
+    </application>
+</manifest>
