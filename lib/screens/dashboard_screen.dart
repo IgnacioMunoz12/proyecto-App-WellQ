@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async' show unawaited;
 import '../main.dart';
 import '../widgets/streak_badge.dart';
 import '../services/health_data_service.dart';
@@ -6,6 +7,7 @@ import '../services/database_service.dart';
 import '../services/streak_initializer.dart';
 import '../services/recovery_tips_service.dart';
 import 'analytics_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Widgets/todays_habits_section.dart';
 import '../widgets/recovery_tips_modal.dart';
 import 'calendar_screen.dart';
@@ -21,7 +23,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingObserver {
   final healthService = HealthDataService();
-
+  double? userWeight;
   // inicializador de estado diario/rachas
   late final StreakInitializer _streakInit;
 
@@ -31,6 +33,9 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
 
   VoidCallback? _svcListener;
 
+  Map<String, dynamic>? treatmentPlanData;
+  bool isLoadingTreatment = true;
+
   String _metricsTitle(AppLocalizations l10n) =>
       _pageIndex == 0 ? l10n.healthVitals : l10n.healthMetrics;
 
@@ -39,7 +44,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _streakInit = StreakInitializer(DatabaseService().database);
-
+    _loadUserWeight();
     // Escucha cambios del servicio para refrescar UI automáticamente
     _svcListener = () {
       if (mounted) setState(() {});
@@ -50,22 +55,57 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
   }
 
   Future<void> _initializeData() async {
-    // Normalizar estado diario ANTES de cargar datos del dashboard
-    await _streakInit.normalizeTodayOnDashboardOpen();
 
-    // Inicializar el servicio (pide permisos, carga datos, etc.)
-    await healthService.initialize();
+    _loadTreatmentProgress();  // Sin await - se ejecuta en paralelo
 
-    // HR (24h: actual/min/max/reposo)
-    await healthService.fetchHeartRate();
+    try {
+      // Normalizar estado diario ANTES de cargar datos del dashboard
+      await _streakInit.normalizeTodayOnDashboardOpen();
 
-    // Asegura polling automático de HR (lectura + escritura cada tick)
-    healthService.startHeartRatePolling(
-      interval: const Duration(seconds: 15),
-      writeEachTick: true,
-    );
+      // Inicializar el servicio (pide permisos, carga datos, etc.)
+      await healthService.initialize();
 
-    if (mounted) setState(() {});
+      // HR (24h: actual/min/max/reposo)
+      await healthService.fetchHeartRate();
+
+      // Asegura polling automático de HR (lectura + escritura cada tick)
+      healthService.startHeartRatePolling(
+        interval: const Duration(seconds: 15),
+        writeEachTick: true,
+      );
+
+      if (mounted) setState(() {});
+    } catch (e) {
+      print('❌ Error en _initializeData: $e');
+      if (mounted) setState(() {});
+    }
+  }
+
+  Future<void> _loadUserWeight() async {
+    final prefs = await SharedPreferences.getInstance();
+    final weight = prefs.getDouble('user_weight');
+    if (mounted && weight != null) {
+      setState(() {
+        userWeight = weight;
+      });
+    }
+  }
+
+  Future<void> _loadTreatmentProgress() async {
+    try {
+      final db = DatabaseService().database;
+      final data = await db.getTreatmentPlanProgress();
+
+      setState(() {
+        treatmentPlanData = data;
+        isLoadingTreatment = false;
+      });
+    } catch (e) {
+      print('Error loading treatment progress: $e');
+      setState(() {
+        isLoadingTreatment = false;
+      });
+    }
   }
 
   @override
@@ -81,6 +121,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
 
   Future<void> _normalizeForToday() async {
     await _streakInit.normalizeTodayOnDashboardOpen();
+    await _loadTreatmentProgress();
     if (mounted) setState(() {});
   }
 
@@ -100,7 +141,9 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
   // ====== Diálogo para actualizar el peso ======
   void _showUpdateWeightDialog() {
     final controller = TextEditingController(
-      text: healthService.weight > 0 ? healthService.weight.toStringAsFixed(1) : '',
+      text: (userWeight ?? healthService.weight) > 0
+          ? (userWeight ?? healthService.weight).toStringAsFixed(1)
+          : '--',
     );
     bool writeToHC = false;
 
@@ -211,23 +254,37 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
                   ),
                 ),
 
-              Row(
-                children: [
-                  _Breadcrumb(text: l10n.recoveryBreadcrumb('Lower Back Recovery', 23)),
-                  const Spacer(),
-                  _Chip(
-                    text: l10n.weeklyChange('+8%'),
-                    color: cs.primary.withOpacity(0.20),
-                    icon: Icons.trending_up,
-                  ),
-                ],
-              ),
+
               const SizedBox(height: 12),
 
               // Recovery Card con datos reales
-              _RecoveryCard(
-                percent: healthService.stepsProgress,
-                message: healthService.getMotivationalMessage(),
+              isLoadingTreatment
+                  ? const SizedBox(
+                height: 300,
+                child: Center(child: CircularProgressIndicator()),
+              )
+                  : _RecoveryCard(
+                percent: (treatmentPlanData != null && treatmentPlanData!['hasPlan'])
+                    ? (treatmentPlanData!['progress'] as num).toDouble()
+                    : 0.0,
+                message: (treatmentPlanData != null && treatmentPlanData!['hasPlan'])
+                    ? _getTreatmentMessage(
+                  treatmentPlanData!['completedSessions'] as int,
+                  treatmentPlanData!['totalSessions'] as int,
+                )
+                    : "Start your recovery journey today!",
+                sessionInfo: treatmentPlanData != null && treatmentPlanData!['hasPlan']
+                    ? '${treatmentPlanData!['completedSessions']}/${treatmentPlanData!['totalSessions']} sessions'
+                    : null,
+                injuryName: treatmentPlanData != null && treatmentPlanData!['hasPlan']
+                    ? treatmentPlanData!['injuryName'] as String
+                    : null,
+                onTap: () async {
+                  // Navigate to analytics screen
+                  await Navigator.pushNamed(context, '/analytics');
+                  // Refresh after returning
+                  await _loadTreatmentProgress();
+                },
               ),
 
               const SizedBox(height: 16),
@@ -435,8 +492,8 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
                             context,
                             icon: Icons.monitor_weight,
                             label: l10n.weightLabel,
-                            value: healthService.weight > 0
-                                ? healthService.weight.toStringAsFixed(1)
+                            value: (userWeight ?? healthService.weight) > 0
+                                ? (userWeight ?? healthService.weight).toStringAsFixed(1)
                                 : '--',
                             unit: l10n.weightUnitKg,
                             color: const Color(0xFF8B5CF6),
@@ -530,19 +587,7 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
               const TodaysHabitsSection(),
 
               // ===== Botones extra del PRIMER script (rutas ya definidas en main.dart) =====
-              const SizedBox(height: 24),
-              Center(
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.fitness_center_rounded),
-                  label: const Text('Register Health Data', style: TextStyle(fontSize: 18)),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
-                    backgroundColor: Colors.teal,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  ),
-                  onPressed: () => Navigator.pushNamed(context, '/healthRegisterEnglish'),
-                ),
-              ),
+
               const SizedBox(height: 24),
               Center(
                 child: ElevatedButton.icon(
@@ -564,6 +609,24 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
       ),
       bottomNavigationBar: const _BottomNav(),
     );
+  }
+
+  String _getTreatmentMessage(int completed, int total) {
+    final percentage = (completed / total * 100).round();
+
+    if (percentage == 0) {
+      return "Let's start your recovery journey! 💪";
+    } else if (percentage < 25) {
+      return "Great start! Keep building momentum! 🌱";
+    } else if (percentage < 50) {
+      return "You're making solid progress! 🔥";
+    } else if (percentage < 75) {
+      return "More than halfway there! 🎯";
+    } else if (percentage < 100) {
+      return "Almost done! Finish strong! 🏆";
+    } else {
+      return "Recovery complete! Amazing work! 🎉";
+    }
   }
 
   String _formatTimeSince(DateTime time, AppLocalizations l10n) {
@@ -960,10 +1023,16 @@ class _Chip extends StatelessWidget {
 class _RecoveryCard extends StatelessWidget {
   final double percent;
   final String? message;
+  final String? sessionInfo;
+  final String? injuryName;
+  final VoidCallback? onTap;
 
   const _RecoveryCard({
     required this.percent,
     this.message,
+    this.sessionInfo,
+    this.injuryName,
+    this.onTap,
   });
 
   @override
@@ -973,76 +1042,130 @@ class _RecoveryCard extends StatelessWidget {
     final clamped = percent.clamp(0.0, 1.0);
     final pctText = '${(clamped * 100).round()}%';
 
-    return Card(
-      color: cs.surface,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-      elevation: 0,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 22),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              l10n.recoveryOptimization,
-              style: TextStyle(
-                color: cs.onSurface,
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 0.2,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 20),
-            _Ring(
-              value: clamped,
-              size: 190,
-              thickness: 14,
-              trackColor: Theme.of(context).brightness == Brightness.dark
-                  ? cs.surfaceContainerHighest
-                  : const Color(0xFFE6EDF5),
-              progressColor: cs.primary,
-              startAngle: -3.14 / 2,
-              centerLabelBuilder: () => Column(
-                mainAxisSize: MainAxisSize.min,
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        color: cs.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        elevation: 0,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 22),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    pctText,
+                    l10n.recoveryOptimization,
                     style: TextStyle(
                       color: cs.onSurface,
-                      fontSize: 36,
-                      fontWeight: FontWeight.w800,
-                      height: 1.0,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    l10n.recoveryLabel,
-                    style: TextStyle(
-                      color: cs.onSurface,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: 0.2,
                     ),
                   ),
+                  if (onTap != null)
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 16,
+                      color: cs.onSurfaceVariant,
+                    ),
                 ],
               ),
-            ),
-            if (message != null) ...[
-              const SizedBox(height: 12),
-              Text(
-                message!,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: cs.primary,
+              if (injuryName != null) ...[
+                const SizedBox(height: 4),
+                Text(
+                  injuryName!,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: cs.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
+              ],
+              const SizedBox(height: 20),
+              _Ring(
+                value: clamped,
+                size: 190,
+                thickness: 14,
+                trackColor: Theme.of(context).brightness == Brightness.dark
+                    ? cs.surfaceContainerHighest
+                    : const Color(0xFFE6EDF5),
+                progressColor: _getProgressColor(clamped, cs),
+                startAngle: -3.14 / 2,
+                centerLabelBuilder: () => Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      pctText,
+                      style: TextStyle(
+                        color: cs.onSurface,
+                        fontSize: 36,
+                        fontWeight: FontWeight.w800,
+                        height: 1.0,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      l10n.recoveryLabel,
+                      style: TextStyle(
+                        color: cs.onSurface,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.2,
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              if (sessionInfo != null) ...[
+                const SizedBox(height: 12),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: _getProgressColor(clamped, cs).withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: _getProgressColor(clamped, cs).withOpacity(0.3),
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    sessionInfo!,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: _getProgressColor(clamped, cs),
+                    ),
+                  ),
+                ),
+              ],
+              if (message != null) ...[
+                const SizedBox(height: 12),
+                Text(
+                  message!,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: cs.primary,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
+  }
+
+  Color _getProgressColor(double progress, ColorScheme cs) {
+    if (progress >= 0.75) return const Color(0xFF10B981); // Green
+    if (progress >= 0.50) return const Color(0xFF14B8A6); // Teal
+    if (progress >= 0.25) return const Color(0xFFF59E0B); // Orange
+    return cs.primary; // Default primary color
   }
 }
 

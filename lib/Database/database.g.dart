@@ -4360,6 +4360,626 @@ class HabitCompletionsCompanion extends UpdateCompanion<HabitCompletion> {
   }
 }
 
+class $TreatmentPlansTable extends TreatmentPlans
+    with TableInfo<$TreatmentPlansTable, TreatmentPlan> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TreatmentPlansTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _patientIdMeta = const VerificationMeta(
+    'patientId',
+  );
+  @override
+  late final GeneratedColumn<int> patientId = GeneratedColumn<int>(
+    'patient_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES patients (id)',
+    ),
+  );
+  static const VerificationMeta _injuryTypeMeta = const VerificationMeta(
+    'injuryType',
+  );
+  @override
+  late final GeneratedColumn<String> injuryType = GeneratedColumn<String>(
+    'injury_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _injuryNameMeta = const VerificationMeta(
+    'injuryName',
+  );
+  @override
+  late final GeneratedColumn<String> injuryName = GeneratedColumn<String>(
+    'injury_name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _totalSessionsMeta = const VerificationMeta(
+    'totalSessions',
+  );
+  @override
+  late final GeneratedColumn<int> totalSessions = GeneratedColumn<int>(
+    'total_sessions',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(12),
+  );
+  static const VerificationMeta _completedSessionsMeta = const VerificationMeta(
+    'completedSessions',
+  );
+  @override
+  late final GeneratedColumn<int> completedSessions = GeneratedColumn<int>(
+    'completed_sessions',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _isActiveMeta = const VerificationMeta(
+    'isActive',
+  );
+  @override
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+    'is_active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _startDateMeta = const VerificationMeta(
+    'startDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> startDate = GeneratedColumn<DateTime>(
+    'start_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _targetEndDateMeta = const VerificationMeta(
+    'targetEndDate',
+  );
+  @override
+  late final GeneratedColumn<DateTime> targetEndDate =
+      GeneratedColumn<DateTime>(
+        'target_end_date',
+        aliasedName,
+        true,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: false,
+      );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    patientId,
+    injuryType,
+    injuryName,
+    totalSessions,
+    completedSessions,
+    isActive,
+    startDate,
+    targetEndDate,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'treatment_plans';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TreatmentPlan> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('patient_id')) {
+      context.handle(
+        _patientIdMeta,
+        patientId.isAcceptableOrUnknown(data['patient_id']!, _patientIdMeta),
+      );
+    }
+    if (data.containsKey('injury_type')) {
+      context.handle(
+        _injuryTypeMeta,
+        injuryType.isAcceptableOrUnknown(data['injury_type']!, _injuryTypeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_injuryTypeMeta);
+    }
+    if (data.containsKey('injury_name')) {
+      context.handle(
+        _injuryNameMeta,
+        injuryName.isAcceptableOrUnknown(data['injury_name']!, _injuryNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_injuryNameMeta);
+    }
+    if (data.containsKey('total_sessions')) {
+      context.handle(
+        _totalSessionsMeta,
+        totalSessions.isAcceptableOrUnknown(
+          data['total_sessions']!,
+          _totalSessionsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('completed_sessions')) {
+      context.handle(
+        _completedSessionsMeta,
+        completedSessions.isAcceptableOrUnknown(
+          data['completed_sessions']!,
+          _completedSessionsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(
+        _isActiveMeta,
+        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
+      );
+    }
+    if (data.containsKey('start_date')) {
+      context.handle(
+        _startDateMeta,
+        startDate.isAcceptableOrUnknown(data['start_date']!, _startDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_startDateMeta);
+    }
+    if (data.containsKey('target_end_date')) {
+      context.handle(
+        _targetEndDateMeta,
+        targetEndDate.isAcceptableOrUnknown(
+          data['target_end_date']!,
+          _targetEndDateMeta,
+        ),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TreatmentPlan map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TreatmentPlan(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      patientId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}patient_id'],
+      ),
+      injuryType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}injury_type'],
+      )!,
+      injuryName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}injury_name'],
+      )!,
+      totalSessions: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}total_sessions'],
+      )!,
+      completedSessions: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}completed_sessions'],
+      )!,
+      isActive: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_active'],
+      )!,
+      startDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}start_date'],
+      )!,
+      targetEndDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}target_end_date'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $TreatmentPlansTable createAlias(String alias) {
+    return $TreatmentPlansTable(attachedDatabase, alias);
+  }
+}
+
+class TreatmentPlan extends DataClass implements Insertable<TreatmentPlan> {
+  final int id;
+  final int? patientId;
+  final String injuryType;
+  final String injuryName;
+  final int totalSessions;
+  final int completedSessions;
+  final bool isActive;
+  final DateTime startDate;
+  final DateTime? targetEndDate;
+  final DateTime createdAt;
+  const TreatmentPlan({
+    required this.id,
+    this.patientId,
+    required this.injuryType,
+    required this.injuryName,
+    required this.totalSessions,
+    required this.completedSessions,
+    required this.isActive,
+    required this.startDate,
+    this.targetEndDate,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    if (!nullToAbsent || patientId != null) {
+      map['patient_id'] = Variable<int>(patientId);
+    }
+    map['injury_type'] = Variable<String>(injuryType);
+    map['injury_name'] = Variable<String>(injuryName);
+    map['total_sessions'] = Variable<int>(totalSessions);
+    map['completed_sessions'] = Variable<int>(completedSessions);
+    map['is_active'] = Variable<bool>(isActive);
+    map['start_date'] = Variable<DateTime>(startDate);
+    if (!nullToAbsent || targetEndDate != null) {
+      map['target_end_date'] = Variable<DateTime>(targetEndDate);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  TreatmentPlansCompanion toCompanion(bool nullToAbsent) {
+    return TreatmentPlansCompanion(
+      id: Value(id),
+      patientId: patientId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(patientId),
+      injuryType: Value(injuryType),
+      injuryName: Value(injuryName),
+      totalSessions: Value(totalSessions),
+      completedSessions: Value(completedSessions),
+      isActive: Value(isActive),
+      startDate: Value(startDate),
+      targetEndDate: targetEndDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(targetEndDate),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory TreatmentPlan.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TreatmentPlan(
+      id: serializer.fromJson<int>(json['id']),
+      patientId: serializer.fromJson<int?>(json['patientId']),
+      injuryType: serializer.fromJson<String>(json['injuryType']),
+      injuryName: serializer.fromJson<String>(json['injuryName']),
+      totalSessions: serializer.fromJson<int>(json['totalSessions']),
+      completedSessions: serializer.fromJson<int>(json['completedSessions']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      startDate: serializer.fromJson<DateTime>(json['startDate']),
+      targetEndDate: serializer.fromJson<DateTime?>(json['targetEndDate']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'patientId': serializer.toJson<int?>(patientId),
+      'injuryType': serializer.toJson<String>(injuryType),
+      'injuryName': serializer.toJson<String>(injuryName),
+      'totalSessions': serializer.toJson<int>(totalSessions),
+      'completedSessions': serializer.toJson<int>(completedSessions),
+      'isActive': serializer.toJson<bool>(isActive),
+      'startDate': serializer.toJson<DateTime>(startDate),
+      'targetEndDate': serializer.toJson<DateTime?>(targetEndDate),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  TreatmentPlan copyWith({
+    int? id,
+    Value<int?> patientId = const Value.absent(),
+    String? injuryType,
+    String? injuryName,
+    int? totalSessions,
+    int? completedSessions,
+    bool? isActive,
+    DateTime? startDate,
+    Value<DateTime?> targetEndDate = const Value.absent(),
+    DateTime? createdAt,
+  }) => TreatmentPlan(
+    id: id ?? this.id,
+    patientId: patientId.present ? patientId.value : this.patientId,
+    injuryType: injuryType ?? this.injuryType,
+    injuryName: injuryName ?? this.injuryName,
+    totalSessions: totalSessions ?? this.totalSessions,
+    completedSessions: completedSessions ?? this.completedSessions,
+    isActive: isActive ?? this.isActive,
+    startDate: startDate ?? this.startDate,
+    targetEndDate: targetEndDate.present
+        ? targetEndDate.value
+        : this.targetEndDate,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  TreatmentPlan copyWithCompanion(TreatmentPlansCompanion data) {
+    return TreatmentPlan(
+      id: data.id.present ? data.id.value : this.id,
+      patientId: data.patientId.present ? data.patientId.value : this.patientId,
+      injuryType: data.injuryType.present
+          ? data.injuryType.value
+          : this.injuryType,
+      injuryName: data.injuryName.present
+          ? data.injuryName.value
+          : this.injuryName,
+      totalSessions: data.totalSessions.present
+          ? data.totalSessions.value
+          : this.totalSessions,
+      completedSessions: data.completedSessions.present
+          ? data.completedSessions.value
+          : this.completedSessions,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
+      startDate: data.startDate.present ? data.startDate.value : this.startDate,
+      targetEndDate: data.targetEndDate.present
+          ? data.targetEndDate.value
+          : this.targetEndDate,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TreatmentPlan(')
+          ..write('id: $id, ')
+          ..write('patientId: $patientId, ')
+          ..write('injuryType: $injuryType, ')
+          ..write('injuryName: $injuryName, ')
+          ..write('totalSessions: $totalSessions, ')
+          ..write('completedSessions: $completedSessions, ')
+          ..write('isActive: $isActive, ')
+          ..write('startDate: $startDate, ')
+          ..write('targetEndDate: $targetEndDate, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    patientId,
+    injuryType,
+    injuryName,
+    totalSessions,
+    completedSessions,
+    isActive,
+    startDate,
+    targetEndDate,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TreatmentPlan &&
+          other.id == this.id &&
+          other.patientId == this.patientId &&
+          other.injuryType == this.injuryType &&
+          other.injuryName == this.injuryName &&
+          other.totalSessions == this.totalSessions &&
+          other.completedSessions == this.completedSessions &&
+          other.isActive == this.isActive &&
+          other.startDate == this.startDate &&
+          other.targetEndDate == this.targetEndDate &&
+          other.createdAt == this.createdAt);
+}
+
+class TreatmentPlansCompanion extends UpdateCompanion<TreatmentPlan> {
+  final Value<int> id;
+  final Value<int?> patientId;
+  final Value<String> injuryType;
+  final Value<String> injuryName;
+  final Value<int> totalSessions;
+  final Value<int> completedSessions;
+  final Value<bool> isActive;
+  final Value<DateTime> startDate;
+  final Value<DateTime?> targetEndDate;
+  final Value<DateTime> createdAt;
+  const TreatmentPlansCompanion({
+    this.id = const Value.absent(),
+    this.patientId = const Value.absent(),
+    this.injuryType = const Value.absent(),
+    this.injuryName = const Value.absent(),
+    this.totalSessions = const Value.absent(),
+    this.completedSessions = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.startDate = const Value.absent(),
+    this.targetEndDate = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  TreatmentPlansCompanion.insert({
+    this.id = const Value.absent(),
+    this.patientId = const Value.absent(),
+    required String injuryType,
+    required String injuryName,
+    this.totalSessions = const Value.absent(),
+    this.completedSessions = const Value.absent(),
+    this.isActive = const Value.absent(),
+    required DateTime startDate,
+    this.targetEndDate = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : injuryType = Value(injuryType),
+       injuryName = Value(injuryName),
+       startDate = Value(startDate);
+  static Insertable<TreatmentPlan> custom({
+    Expression<int>? id,
+    Expression<int>? patientId,
+    Expression<String>? injuryType,
+    Expression<String>? injuryName,
+    Expression<int>? totalSessions,
+    Expression<int>? completedSessions,
+    Expression<bool>? isActive,
+    Expression<DateTime>? startDate,
+    Expression<DateTime>? targetEndDate,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (patientId != null) 'patient_id': patientId,
+      if (injuryType != null) 'injury_type': injuryType,
+      if (injuryName != null) 'injury_name': injuryName,
+      if (totalSessions != null) 'total_sessions': totalSessions,
+      if (completedSessions != null) 'completed_sessions': completedSessions,
+      if (isActive != null) 'is_active': isActive,
+      if (startDate != null) 'start_date': startDate,
+      if (targetEndDate != null) 'target_end_date': targetEndDate,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  TreatmentPlansCompanion copyWith({
+    Value<int>? id,
+    Value<int?>? patientId,
+    Value<String>? injuryType,
+    Value<String>? injuryName,
+    Value<int>? totalSessions,
+    Value<int>? completedSessions,
+    Value<bool>? isActive,
+    Value<DateTime>? startDate,
+    Value<DateTime?>? targetEndDate,
+    Value<DateTime>? createdAt,
+  }) {
+    return TreatmentPlansCompanion(
+      id: id ?? this.id,
+      patientId: patientId ?? this.patientId,
+      injuryType: injuryType ?? this.injuryType,
+      injuryName: injuryName ?? this.injuryName,
+      totalSessions: totalSessions ?? this.totalSessions,
+      completedSessions: completedSessions ?? this.completedSessions,
+      isActive: isActive ?? this.isActive,
+      startDate: startDate ?? this.startDate,
+      targetEndDate: targetEndDate ?? this.targetEndDate,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (patientId.present) {
+      map['patient_id'] = Variable<int>(patientId.value);
+    }
+    if (injuryType.present) {
+      map['injury_type'] = Variable<String>(injuryType.value);
+    }
+    if (injuryName.present) {
+      map['injury_name'] = Variable<String>(injuryName.value);
+    }
+    if (totalSessions.present) {
+      map['total_sessions'] = Variable<int>(totalSessions.value);
+    }
+    if (completedSessions.present) {
+      map['completed_sessions'] = Variable<int>(completedSessions.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (startDate.present) {
+      map['start_date'] = Variable<DateTime>(startDate.value);
+    }
+    if (targetEndDate.present) {
+      map['target_end_date'] = Variable<DateTime>(targetEndDate.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TreatmentPlansCompanion(')
+          ..write('id: $id, ')
+          ..write('patientId: $patientId, ')
+          ..write('injuryType: $injuryType, ')
+          ..write('injuryName: $injuryName, ')
+          ..write('totalSessions: $totalSessions, ')
+          ..write('completedSessions: $completedSessions, ')
+          ..write('isActive: $isActive, ')
+          ..write('startDate: $startDate, ')
+          ..write('targetEndDate: $targetEndDate, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $WorkoutSessionsTable extends WorkoutSessions
     with TableInfo<$WorkoutSessionsTable, WorkoutSession> {
   @override
@@ -4377,6 +4997,20 @@ class $WorkoutSessionsTable extends WorkoutSessions
     requiredDuringInsert: false,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _treatmentPlanIdMeta = const VerificationMeta(
+    'treatmentPlanId',
+  );
+  @override
+  late final GeneratedColumn<int> treatmentPlanId = GeneratedColumn<int>(
+    'treatment_plan_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES treatment_plans (id)',
     ),
   );
   static const VerificationMeta _categoryMeta = const VerificationMeta(
@@ -4399,6 +5033,17 @@ class $WorkoutSessionsTable extends WorkoutSessions
     aliasedName,
     false,
     type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _sessionNumberMeta = const VerificationMeta(
+    'sessionNumber',
+  );
+  @override
+  late final GeneratedColumn<int> sessionNumber = GeneratedColumn<int>(
+    'session_number',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
   static const VerificationMeta _painLevelMeta = const VerificationMeta(
@@ -4446,8 +5091,10 @@ class $WorkoutSessionsTable extends WorkoutSessions
   @override
   List<GeneratedColumn> get $columns => [
     id,
+    treatmentPlanId,
     category,
     categoryName,
+    sessionNumber,
     painLevel,
     stiffness,
     notes,
@@ -4468,6 +5115,15 @@ class $WorkoutSessionsTable extends WorkoutSessions
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
+    if (data.containsKey('treatment_plan_id')) {
+      context.handle(
+        _treatmentPlanIdMeta,
+        treatmentPlanId.isAcceptableOrUnknown(
+          data['treatment_plan_id']!,
+          _treatmentPlanIdMeta,
+        ),
+      );
+    }
     if (data.containsKey('category')) {
       context.handle(
         _categoryMeta,
@@ -4486,6 +5142,17 @@ class $WorkoutSessionsTable extends WorkoutSessions
       );
     } else if (isInserting) {
       context.missing(_categoryNameMeta);
+    }
+    if (data.containsKey('session_number')) {
+      context.handle(
+        _sessionNumberMeta,
+        sessionNumber.isAcceptableOrUnknown(
+          data['session_number']!,
+          _sessionNumberMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_sessionNumberMeta);
     }
     if (data.containsKey('pain_level')) {
       context.handle(
@@ -4533,6 +5200,10 @@ class $WorkoutSessionsTable extends WorkoutSessions
         DriftSqlType.int,
         data['${effectivePrefix}id'],
       )!,
+      treatmentPlanId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}treatment_plan_id'],
+      ),
       category: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}category'],
@@ -4540,6 +5211,10 @@ class $WorkoutSessionsTable extends WorkoutSessions
       categoryName: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}category_name'],
+      )!,
+      sessionNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}session_number'],
       )!,
       painLevel: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
@@ -4568,16 +5243,20 @@ class $WorkoutSessionsTable extends WorkoutSessions
 
 class WorkoutSession extends DataClass implements Insertable<WorkoutSession> {
   final int id;
+  final int? treatmentPlanId;
   final String category;
   final String categoryName;
+  final int sessionNumber;
   final int painLevel;
   final int stiffness;
   final String? notes;
   final DateTime completedAt;
   const WorkoutSession({
     required this.id,
+    this.treatmentPlanId,
     required this.category,
     required this.categoryName,
+    required this.sessionNumber,
     required this.painLevel,
     required this.stiffness,
     this.notes,
@@ -4587,8 +5266,12 @@ class WorkoutSession extends DataClass implements Insertable<WorkoutSession> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
+    if (!nullToAbsent || treatmentPlanId != null) {
+      map['treatment_plan_id'] = Variable<int>(treatmentPlanId);
+    }
     map['category'] = Variable<String>(category);
     map['category_name'] = Variable<String>(categoryName);
+    map['session_number'] = Variable<int>(sessionNumber);
     map['pain_level'] = Variable<int>(painLevel);
     map['stiffness'] = Variable<int>(stiffness);
     if (!nullToAbsent || notes != null) {
@@ -4601,8 +5284,12 @@ class WorkoutSession extends DataClass implements Insertable<WorkoutSession> {
   WorkoutSessionsCompanion toCompanion(bool nullToAbsent) {
     return WorkoutSessionsCompanion(
       id: Value(id),
+      treatmentPlanId: treatmentPlanId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(treatmentPlanId),
       category: Value(category),
       categoryName: Value(categoryName),
+      sessionNumber: Value(sessionNumber),
       painLevel: Value(painLevel),
       stiffness: Value(stiffness),
       notes: notes == null && nullToAbsent
@@ -4619,8 +5306,10 @@ class WorkoutSession extends DataClass implements Insertable<WorkoutSession> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return WorkoutSession(
       id: serializer.fromJson<int>(json['id']),
+      treatmentPlanId: serializer.fromJson<int?>(json['treatmentPlanId']),
       category: serializer.fromJson<String>(json['category']),
       categoryName: serializer.fromJson<String>(json['categoryName']),
+      sessionNumber: serializer.fromJson<int>(json['sessionNumber']),
       painLevel: serializer.fromJson<int>(json['painLevel']),
       stiffness: serializer.fromJson<int>(json['stiffness']),
       notes: serializer.fromJson<String?>(json['notes']),
@@ -4632,8 +5321,10 @@ class WorkoutSession extends DataClass implements Insertable<WorkoutSession> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
+      'treatmentPlanId': serializer.toJson<int?>(treatmentPlanId),
       'category': serializer.toJson<String>(category),
       'categoryName': serializer.toJson<String>(categoryName),
+      'sessionNumber': serializer.toJson<int>(sessionNumber),
       'painLevel': serializer.toJson<int>(painLevel),
       'stiffness': serializer.toJson<int>(stiffness),
       'notes': serializer.toJson<String?>(notes),
@@ -4643,16 +5334,22 @@ class WorkoutSession extends DataClass implements Insertable<WorkoutSession> {
 
   WorkoutSession copyWith({
     int? id,
+    Value<int?> treatmentPlanId = const Value.absent(),
     String? category,
     String? categoryName,
+    int? sessionNumber,
     int? painLevel,
     int? stiffness,
     Value<String?> notes = const Value.absent(),
     DateTime? completedAt,
   }) => WorkoutSession(
     id: id ?? this.id,
+    treatmentPlanId: treatmentPlanId.present
+        ? treatmentPlanId.value
+        : this.treatmentPlanId,
     category: category ?? this.category,
     categoryName: categoryName ?? this.categoryName,
+    sessionNumber: sessionNumber ?? this.sessionNumber,
     painLevel: painLevel ?? this.painLevel,
     stiffness: stiffness ?? this.stiffness,
     notes: notes.present ? notes.value : this.notes,
@@ -4661,10 +5358,16 @@ class WorkoutSession extends DataClass implements Insertable<WorkoutSession> {
   WorkoutSession copyWithCompanion(WorkoutSessionsCompanion data) {
     return WorkoutSession(
       id: data.id.present ? data.id.value : this.id,
+      treatmentPlanId: data.treatmentPlanId.present
+          ? data.treatmentPlanId.value
+          : this.treatmentPlanId,
       category: data.category.present ? data.category.value : this.category,
       categoryName: data.categoryName.present
           ? data.categoryName.value
           : this.categoryName,
+      sessionNumber: data.sessionNumber.present
+          ? data.sessionNumber.value
+          : this.sessionNumber,
       painLevel: data.painLevel.present ? data.painLevel.value : this.painLevel,
       stiffness: data.stiffness.present ? data.stiffness.value : this.stiffness,
       notes: data.notes.present ? data.notes.value : this.notes,
@@ -4678,8 +5381,10 @@ class WorkoutSession extends DataClass implements Insertable<WorkoutSession> {
   String toString() {
     return (StringBuffer('WorkoutSession(')
           ..write('id: $id, ')
+          ..write('treatmentPlanId: $treatmentPlanId, ')
           ..write('category: $category, ')
           ..write('categoryName: $categoryName, ')
+          ..write('sessionNumber: $sessionNumber, ')
           ..write('painLevel: $painLevel, ')
           ..write('stiffness: $stiffness, ')
           ..write('notes: $notes, ')
@@ -4691,8 +5396,10 @@ class WorkoutSession extends DataClass implements Insertable<WorkoutSession> {
   @override
   int get hashCode => Object.hash(
     id,
+    treatmentPlanId,
     category,
     categoryName,
+    sessionNumber,
     painLevel,
     stiffness,
     notes,
@@ -4703,8 +5410,10 @@ class WorkoutSession extends DataClass implements Insertable<WorkoutSession> {
       identical(this, other) ||
       (other is WorkoutSession &&
           other.id == this.id &&
+          other.treatmentPlanId == this.treatmentPlanId &&
           other.category == this.category &&
           other.categoryName == this.categoryName &&
+          other.sessionNumber == this.sessionNumber &&
           other.painLevel == this.painLevel &&
           other.stiffness == this.stiffness &&
           other.notes == this.notes &&
@@ -4713,16 +5422,20 @@ class WorkoutSession extends DataClass implements Insertable<WorkoutSession> {
 
 class WorkoutSessionsCompanion extends UpdateCompanion<WorkoutSession> {
   final Value<int> id;
+  final Value<int?> treatmentPlanId;
   final Value<String> category;
   final Value<String> categoryName;
+  final Value<int> sessionNumber;
   final Value<int> painLevel;
   final Value<int> stiffness;
   final Value<String?> notes;
   final Value<DateTime> completedAt;
   const WorkoutSessionsCompanion({
     this.id = const Value.absent(),
+    this.treatmentPlanId = const Value.absent(),
     this.category = const Value.absent(),
     this.categoryName = const Value.absent(),
+    this.sessionNumber = const Value.absent(),
     this.painLevel = const Value.absent(),
     this.stiffness = const Value.absent(),
     this.notes = const Value.absent(),
@@ -4730,21 +5443,26 @@ class WorkoutSessionsCompanion extends UpdateCompanion<WorkoutSession> {
   });
   WorkoutSessionsCompanion.insert({
     this.id = const Value.absent(),
+    this.treatmentPlanId = const Value.absent(),
     required String category,
     required String categoryName,
+    required int sessionNumber,
     required int painLevel,
     required int stiffness,
     this.notes = const Value.absent(),
     required DateTime completedAt,
   }) : category = Value(category),
        categoryName = Value(categoryName),
+       sessionNumber = Value(sessionNumber),
        painLevel = Value(painLevel),
        stiffness = Value(stiffness),
        completedAt = Value(completedAt);
   static Insertable<WorkoutSession> custom({
     Expression<int>? id,
+    Expression<int>? treatmentPlanId,
     Expression<String>? category,
     Expression<String>? categoryName,
+    Expression<int>? sessionNumber,
     Expression<int>? painLevel,
     Expression<int>? stiffness,
     Expression<String>? notes,
@@ -4752,8 +5470,10 @@ class WorkoutSessionsCompanion extends UpdateCompanion<WorkoutSession> {
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
+      if (treatmentPlanId != null) 'treatment_plan_id': treatmentPlanId,
       if (category != null) 'category': category,
       if (categoryName != null) 'category_name': categoryName,
+      if (sessionNumber != null) 'session_number': sessionNumber,
       if (painLevel != null) 'pain_level': painLevel,
       if (stiffness != null) 'stiffness': stiffness,
       if (notes != null) 'notes': notes,
@@ -4763,8 +5483,10 @@ class WorkoutSessionsCompanion extends UpdateCompanion<WorkoutSession> {
 
   WorkoutSessionsCompanion copyWith({
     Value<int>? id,
+    Value<int?>? treatmentPlanId,
     Value<String>? category,
     Value<String>? categoryName,
+    Value<int>? sessionNumber,
     Value<int>? painLevel,
     Value<int>? stiffness,
     Value<String?>? notes,
@@ -4772,8 +5494,10 @@ class WorkoutSessionsCompanion extends UpdateCompanion<WorkoutSession> {
   }) {
     return WorkoutSessionsCompanion(
       id: id ?? this.id,
+      treatmentPlanId: treatmentPlanId ?? this.treatmentPlanId,
       category: category ?? this.category,
       categoryName: categoryName ?? this.categoryName,
+      sessionNumber: sessionNumber ?? this.sessionNumber,
       painLevel: painLevel ?? this.painLevel,
       stiffness: stiffness ?? this.stiffness,
       notes: notes ?? this.notes,
@@ -4787,11 +5511,17 @@ class WorkoutSessionsCompanion extends UpdateCompanion<WorkoutSession> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
+    if (treatmentPlanId.present) {
+      map['treatment_plan_id'] = Variable<int>(treatmentPlanId.value);
+    }
     if (category.present) {
       map['category'] = Variable<String>(category.value);
     }
     if (categoryName.present) {
       map['category_name'] = Variable<String>(categoryName.value);
+    }
+    if (sessionNumber.present) {
+      map['session_number'] = Variable<int>(sessionNumber.value);
     }
     if (painLevel.present) {
       map['pain_level'] = Variable<int>(painLevel.value);
@@ -4812,8 +5542,10 @@ class WorkoutSessionsCompanion extends UpdateCompanion<WorkoutSession> {
   String toString() {
     return (StringBuffer('WorkoutSessionsCompanion(')
           ..write('id: $id, ')
+          ..write('treatmentPlanId: $treatmentPlanId, ')
           ..write('category: $category, ')
           ..write('categoryName: $categoryName, ')
+          ..write('sessionNumber: $sessionNumber, ')
           ..write('painLevel: $painLevel, ')
           ..write('stiffness: $stiffness, ')
           ..write('notes: $notes, ')
@@ -4837,6 +5569,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $HabitCompletionsTable habitCompletions = $HabitCompletionsTable(
     this,
   );
+  late final $TreatmentPlansTable treatmentPlans = $TreatmentPlansTable(this);
   late final $WorkoutSessionsTable workoutSessions = $WorkoutSessionsTable(
     this,
   );
@@ -4854,6 +5587,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     healthMetrics,
     habits,
     habitCompletions,
+    treatmentPlans,
     workoutSessions,
   ];
 }
@@ -5423,6 +6157,27 @@ final class $$PatientsTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$TreatmentPlansTable, List<TreatmentPlan>>
+  _treatmentPlansRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.treatmentPlans,
+    aliasName: $_aliasNameGenerator(
+      db.patients.id,
+      db.treatmentPlans.patientId,
+    ),
+  );
+
+  $$TreatmentPlansTableProcessedTableManager get treatmentPlansRefs {
+    final manager = $$TreatmentPlansTableTableManager(
+      $_db,
+      $_db.treatmentPlans,
+    ).filter((f) => f.patientId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_treatmentPlansRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$PatientsTableFilterComposer
@@ -5633,6 +6388,31 @@ class $$PatientsTableFilterComposer
           }) => $$HabitsTableFilterComposer(
             $db: $db,
             $table: $db.habits,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> treatmentPlansRefs(
+    Expression<bool> Function($$TreatmentPlansTableFilterComposer f) f,
+  ) {
+    final $$TreatmentPlansTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.treatmentPlans,
+      getReferencedColumn: (t) => t.patientId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TreatmentPlansTableFilterComposer(
+            $db: $db,
+            $table: $db.treatmentPlans,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -5913,6 +6693,31 @@ class $$PatientsTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> treatmentPlansRefs<T extends Object>(
+    Expression<T> Function($$TreatmentPlansTableAnnotationComposer a) f,
+  ) {
+    final $$TreatmentPlansTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.treatmentPlans,
+      getReferencedColumn: (t) => t.patientId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TreatmentPlansTableAnnotationComposer(
+            $db: $db,
+            $table: $db.treatmentPlans,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$PatientsTableTableManager
@@ -5936,6 +6741,7 @@ class $$PatientsTableTableManager
             bool carePlansRefs,
             bool healthMetricsRefs,
             bool habitsRefs,
+            bool treatmentPlansRefs,
           })
         > {
   $$PatientsTableTableManager(_$AppDatabase db, $PatientsTable table)
@@ -6006,6 +6812,7 @@ class $$PatientsTableTableManager
                 carePlansRefs = false,
                 healthMetricsRefs = false,
                 habitsRefs = false,
+                treatmentPlansRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -6016,6 +6823,7 @@ class $$PatientsTableTableManager
                     if (carePlansRefs) db.carePlans,
                     if (healthMetricsRefs) db.healthMetrics,
                     if (habitsRefs) db.habits,
+                    if (treatmentPlansRefs) db.treatmentPlans,
                   ],
                   addJoins:
                       <
@@ -6177,6 +6985,27 @@ class $$PatientsTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (treatmentPlansRefs)
+                        await $_getPrefetchedData<
+                          Patient,
+                          $PatientsTable,
+                          TreatmentPlan
+                        >(
+                          currentTable: table,
+                          referencedTable: $$PatientsTableReferences
+                              ._treatmentPlansRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$PatientsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).treatmentPlansRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.patientId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -6205,6 +7034,7 @@ typedef $$PatientsTableProcessedTableManager =
         bool carePlansRefs,
         bool healthMetricsRefs,
         bool habitsRefs,
+        bool treatmentPlansRefs,
       })
     >;
 typedef $$DevicesTableCreateCompanionBuilder =
@@ -8961,11 +9791,537 @@ typedef $$HabitCompletionsTableProcessedTableManager =
       HabitCompletion,
       PrefetchHooks Function({bool habitId})
     >;
+typedef $$TreatmentPlansTableCreateCompanionBuilder =
+    TreatmentPlansCompanion Function({
+      Value<int> id,
+      Value<int?> patientId,
+      required String injuryType,
+      required String injuryName,
+      Value<int> totalSessions,
+      Value<int> completedSessions,
+      Value<bool> isActive,
+      required DateTime startDate,
+      Value<DateTime?> targetEndDate,
+      Value<DateTime> createdAt,
+    });
+typedef $$TreatmentPlansTableUpdateCompanionBuilder =
+    TreatmentPlansCompanion Function({
+      Value<int> id,
+      Value<int?> patientId,
+      Value<String> injuryType,
+      Value<String> injuryName,
+      Value<int> totalSessions,
+      Value<int> completedSessions,
+      Value<bool> isActive,
+      Value<DateTime> startDate,
+      Value<DateTime?> targetEndDate,
+      Value<DateTime> createdAt,
+    });
+
+final class $$TreatmentPlansTableReferences
+    extends BaseReferences<_$AppDatabase, $TreatmentPlansTable, TreatmentPlan> {
+  $$TreatmentPlansTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $PatientsTable _patientIdTable(_$AppDatabase db) =>
+      db.patients.createAlias(
+        $_aliasNameGenerator(db.treatmentPlans.patientId, db.patients.id),
+      );
+
+  $$PatientsTableProcessedTableManager? get patientId {
+    final $_column = $_itemColumn<int>('patient_id');
+    if ($_column == null) return null;
+    final manager = $$PatientsTableTableManager(
+      $_db,
+      $_db.patients,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_patientIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<$WorkoutSessionsTable, List<WorkoutSession>>
+  _workoutSessionsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.workoutSessions,
+    aliasName: $_aliasNameGenerator(
+      db.treatmentPlans.id,
+      db.workoutSessions.treatmentPlanId,
+    ),
+  );
+
+  $$WorkoutSessionsTableProcessedTableManager get workoutSessionsRefs {
+    final manager = $$WorkoutSessionsTableTableManager(
+      $_db,
+      $_db.workoutSessions,
+    ).filter((f) => f.treatmentPlanId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _workoutSessionsRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$TreatmentPlansTableFilterComposer
+    extends Composer<_$AppDatabase, $TreatmentPlansTable> {
+  $$TreatmentPlansTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get injuryType => $composableBuilder(
+    column: $table.injuryType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get injuryName => $composableBuilder(
+    column: $table.injuryName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get totalSessions => $composableBuilder(
+    column: $table.totalSessions,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get completedSessions => $composableBuilder(
+    column: $table.completedSessions,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get startDate => $composableBuilder(
+    column: $table.startDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get targetEndDate => $composableBuilder(
+    column: $table.targetEndDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$PatientsTableFilterComposer get patientId {
+    final $$PatientsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.patientId,
+      referencedTable: $db.patients,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PatientsTableFilterComposer(
+            $db: $db,
+            $table: $db.patients,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> workoutSessionsRefs(
+    Expression<bool> Function($$WorkoutSessionsTableFilterComposer f) f,
+  ) {
+    final $$WorkoutSessionsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.workoutSessions,
+      getReferencedColumn: (t) => t.treatmentPlanId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$WorkoutSessionsTableFilterComposer(
+            $db: $db,
+            $table: $db.workoutSessions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$TreatmentPlansTableOrderingComposer
+    extends Composer<_$AppDatabase, $TreatmentPlansTable> {
+  $$TreatmentPlansTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get injuryType => $composableBuilder(
+    column: $table.injuryType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get injuryName => $composableBuilder(
+    column: $table.injuryName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get totalSessions => $composableBuilder(
+    column: $table.totalSessions,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get completedSessions => $composableBuilder(
+    column: $table.completedSessions,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get startDate => $composableBuilder(
+    column: $table.startDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get targetEndDate => $composableBuilder(
+    column: $table.targetEndDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$PatientsTableOrderingComposer get patientId {
+    final $$PatientsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.patientId,
+      referencedTable: $db.patients,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PatientsTableOrderingComposer(
+            $db: $db,
+            $table: $db.patients,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TreatmentPlansTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TreatmentPlansTable> {
+  $$TreatmentPlansTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get injuryType => $composableBuilder(
+    column: $table.injuryType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get injuryName => $composableBuilder(
+    column: $table.injuryName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get totalSessions => $composableBuilder(
+    column: $table.totalSessions,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get completedSessions => $composableBuilder(
+    column: $table.completedSessions,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get startDate =>
+      $composableBuilder(column: $table.startDate, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get targetEndDate => $composableBuilder(
+    column: $table.targetEndDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$PatientsTableAnnotationComposer get patientId {
+    final $$PatientsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.patientId,
+      referencedTable: $db.patients,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$PatientsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.patients,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> workoutSessionsRefs<T extends Object>(
+    Expression<T> Function($$WorkoutSessionsTableAnnotationComposer a) f,
+  ) {
+    final $$WorkoutSessionsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.workoutSessions,
+      getReferencedColumn: (t) => t.treatmentPlanId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$WorkoutSessionsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.workoutSessions,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$TreatmentPlansTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TreatmentPlansTable,
+          TreatmentPlan,
+          $$TreatmentPlansTableFilterComposer,
+          $$TreatmentPlansTableOrderingComposer,
+          $$TreatmentPlansTableAnnotationComposer,
+          $$TreatmentPlansTableCreateCompanionBuilder,
+          $$TreatmentPlansTableUpdateCompanionBuilder,
+          (TreatmentPlan, $$TreatmentPlansTableReferences),
+          TreatmentPlan,
+          PrefetchHooks Function({bool patientId, bool workoutSessionsRefs})
+        > {
+  $$TreatmentPlansTableTableManager(
+    _$AppDatabase db,
+    $TreatmentPlansTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TreatmentPlansTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TreatmentPlansTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TreatmentPlansTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int?> patientId = const Value.absent(),
+                Value<String> injuryType = const Value.absent(),
+                Value<String> injuryName = const Value.absent(),
+                Value<int> totalSessions = const Value.absent(),
+                Value<int> completedSessions = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<DateTime> startDate = const Value.absent(),
+                Value<DateTime?> targetEndDate = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => TreatmentPlansCompanion(
+                id: id,
+                patientId: patientId,
+                injuryType: injuryType,
+                injuryName: injuryName,
+                totalSessions: totalSessions,
+                completedSessions: completedSessions,
+                isActive: isActive,
+                startDate: startDate,
+                targetEndDate: targetEndDate,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int?> patientId = const Value.absent(),
+                required String injuryType,
+                required String injuryName,
+                Value<int> totalSessions = const Value.absent(),
+                Value<int> completedSessions = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                required DateTime startDate,
+                Value<DateTime?> targetEndDate = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => TreatmentPlansCompanion.insert(
+                id: id,
+                patientId: patientId,
+                injuryType: injuryType,
+                injuryName: injuryName,
+                totalSessions: totalSessions,
+                completedSessions: completedSessions,
+                isActive: isActive,
+                startDate: startDate,
+                targetEndDate: targetEndDate,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$TreatmentPlansTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({patientId = false, workoutSessionsRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (workoutSessionsRefs) db.workoutSessions,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (patientId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.patientId,
+                                    referencedTable:
+                                        $$TreatmentPlansTableReferences
+                                            ._patientIdTable(db),
+                                    referencedColumn:
+                                        $$TreatmentPlansTableReferences
+                                            ._patientIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (workoutSessionsRefs)
+                        await $_getPrefetchedData<
+                          TreatmentPlan,
+                          $TreatmentPlansTable,
+                          WorkoutSession
+                        >(
+                          currentTable: table,
+                          referencedTable: $$TreatmentPlansTableReferences
+                              ._workoutSessionsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$TreatmentPlansTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).workoutSessionsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.treatmentPlanId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$TreatmentPlansTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TreatmentPlansTable,
+      TreatmentPlan,
+      $$TreatmentPlansTableFilterComposer,
+      $$TreatmentPlansTableOrderingComposer,
+      $$TreatmentPlansTableAnnotationComposer,
+      $$TreatmentPlansTableCreateCompanionBuilder,
+      $$TreatmentPlansTableUpdateCompanionBuilder,
+      (TreatmentPlan, $$TreatmentPlansTableReferences),
+      TreatmentPlan,
+      PrefetchHooks Function({bool patientId, bool workoutSessionsRefs})
+    >;
 typedef $$WorkoutSessionsTableCreateCompanionBuilder =
     WorkoutSessionsCompanion Function({
       Value<int> id,
+      Value<int?> treatmentPlanId,
       required String category,
       required String categoryName,
+      required int sessionNumber,
       required int painLevel,
       required int stiffness,
       Value<String?> notes,
@@ -8974,13 +10330,47 @@ typedef $$WorkoutSessionsTableCreateCompanionBuilder =
 typedef $$WorkoutSessionsTableUpdateCompanionBuilder =
     WorkoutSessionsCompanion Function({
       Value<int> id,
+      Value<int?> treatmentPlanId,
       Value<String> category,
       Value<String> categoryName,
+      Value<int> sessionNumber,
       Value<int> painLevel,
       Value<int> stiffness,
       Value<String?> notes,
       Value<DateTime> completedAt,
     });
+
+final class $$WorkoutSessionsTableReferences
+    extends
+        BaseReferences<_$AppDatabase, $WorkoutSessionsTable, WorkoutSession> {
+  $$WorkoutSessionsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $TreatmentPlansTable _treatmentPlanIdTable(_$AppDatabase db) =>
+      db.treatmentPlans.createAlias(
+        $_aliasNameGenerator(
+          db.workoutSessions.treatmentPlanId,
+          db.treatmentPlans.id,
+        ),
+      );
+
+  $$TreatmentPlansTableProcessedTableManager? get treatmentPlanId {
+    final $_column = $_itemColumn<int>('treatment_plan_id');
+    if ($_column == null) return null;
+    final manager = $$TreatmentPlansTableTableManager(
+      $_db,
+      $_db.treatmentPlans,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_treatmentPlanIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
 
 class $$WorkoutSessionsTableFilterComposer
     extends Composer<_$AppDatabase, $WorkoutSessionsTable> {
@@ -9006,6 +10396,11 @@ class $$WorkoutSessionsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
+  ColumnFilters<int> get sessionNumber => $composableBuilder(
+    column: $table.sessionNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
   ColumnFilters<int> get painLevel => $composableBuilder(
     column: $table.painLevel,
     builder: (column) => ColumnFilters(column),
@@ -9025,6 +10420,29 @@ class $$WorkoutSessionsTableFilterComposer
     column: $table.completedAt,
     builder: (column) => ColumnFilters(column),
   );
+
+  $$TreatmentPlansTableFilterComposer get treatmentPlanId {
+    final $$TreatmentPlansTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.treatmentPlanId,
+      referencedTable: $db.treatmentPlans,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TreatmentPlansTableFilterComposer(
+            $db: $db,
+            $table: $db.treatmentPlans,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$WorkoutSessionsTableOrderingComposer
@@ -9051,6 +10469,11 @@ class $$WorkoutSessionsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get sessionNumber => $composableBuilder(
+    column: $table.sessionNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<int> get painLevel => $composableBuilder(
     column: $table.painLevel,
     builder: (column) => ColumnOrderings(column),
@@ -9070,6 +10493,29 @@ class $$WorkoutSessionsTableOrderingComposer
     column: $table.completedAt,
     builder: (column) => ColumnOrderings(column),
   );
+
+  $$TreatmentPlansTableOrderingComposer get treatmentPlanId {
+    final $$TreatmentPlansTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.treatmentPlanId,
+      referencedTable: $db.treatmentPlans,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TreatmentPlansTableOrderingComposer(
+            $db: $db,
+            $table: $db.treatmentPlans,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$WorkoutSessionsTableAnnotationComposer
@@ -9092,6 +10538,11 @@ class $$WorkoutSessionsTableAnnotationComposer
     builder: (column) => column,
   );
 
+  GeneratedColumn<int> get sessionNumber => $composableBuilder(
+    column: $table.sessionNumber,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<int> get painLevel =>
       $composableBuilder(column: $table.painLevel, builder: (column) => column);
 
@@ -9105,6 +10556,29 @@ class $$WorkoutSessionsTableAnnotationComposer
     column: $table.completedAt,
     builder: (column) => column,
   );
+
+  $$TreatmentPlansTableAnnotationComposer get treatmentPlanId {
+    final $$TreatmentPlansTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.treatmentPlanId,
+      referencedTable: $db.treatmentPlans,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TreatmentPlansTableAnnotationComposer(
+            $db: $db,
+            $table: $db.treatmentPlans,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
 }
 
 class $$WorkoutSessionsTableTableManager
@@ -9118,16 +10592,9 @@ class $$WorkoutSessionsTableTableManager
           $$WorkoutSessionsTableAnnotationComposer,
           $$WorkoutSessionsTableCreateCompanionBuilder,
           $$WorkoutSessionsTableUpdateCompanionBuilder,
-          (
-            WorkoutSession,
-            BaseReferences<
-              _$AppDatabase,
-              $WorkoutSessionsTable,
-              WorkoutSession
-            >,
-          ),
+          (WorkoutSession, $$WorkoutSessionsTableReferences),
           WorkoutSession,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool treatmentPlanId})
         > {
   $$WorkoutSessionsTableTableManager(
     _$AppDatabase db,
@@ -9145,16 +10612,20 @@ class $$WorkoutSessionsTableTableManager
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
+                Value<int?> treatmentPlanId = const Value.absent(),
                 Value<String> category = const Value.absent(),
                 Value<String> categoryName = const Value.absent(),
+                Value<int> sessionNumber = const Value.absent(),
                 Value<int> painLevel = const Value.absent(),
                 Value<int> stiffness = const Value.absent(),
                 Value<String?> notes = const Value.absent(),
                 Value<DateTime> completedAt = const Value.absent(),
               }) => WorkoutSessionsCompanion(
                 id: id,
+                treatmentPlanId: treatmentPlanId,
                 category: category,
                 categoryName: categoryName,
+                sessionNumber: sessionNumber,
                 painLevel: painLevel,
                 stiffness: stiffness,
                 notes: notes,
@@ -9163,25 +10634,76 @@ class $$WorkoutSessionsTableTableManager
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
+                Value<int?> treatmentPlanId = const Value.absent(),
                 required String category,
                 required String categoryName,
+                required int sessionNumber,
                 required int painLevel,
                 required int stiffness,
                 Value<String?> notes = const Value.absent(),
                 required DateTime completedAt,
               }) => WorkoutSessionsCompanion.insert(
                 id: id,
+                treatmentPlanId: treatmentPlanId,
                 category: category,
                 categoryName: categoryName,
+                sessionNumber: sessionNumber,
                 painLevel: painLevel,
                 stiffness: stiffness,
                 notes: notes,
                 completedAt: completedAt,
               ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$WorkoutSessionsTableReferences(db, table, e),
+                ),
+              )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({treatmentPlanId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (treatmentPlanId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.treatmentPlanId,
+                                referencedTable:
+                                    $$WorkoutSessionsTableReferences
+                                        ._treatmentPlanIdTable(db),
+                                referencedColumn:
+                                    $$WorkoutSessionsTableReferences
+                                        ._treatmentPlanIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
         ),
       );
 }
@@ -9196,12 +10718,9 @@ typedef $$WorkoutSessionsTableProcessedTableManager =
       $$WorkoutSessionsTableAnnotationComposer,
       $$WorkoutSessionsTableCreateCompanionBuilder,
       $$WorkoutSessionsTableUpdateCompanionBuilder,
-      (
-        WorkoutSession,
-        BaseReferences<_$AppDatabase, $WorkoutSessionsTable, WorkoutSession>,
-      ),
+      (WorkoutSession, $$WorkoutSessionsTableReferences),
       WorkoutSession,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool treatmentPlanId})
     >;
 
 class $AppDatabaseManager {
@@ -9225,6 +10744,8 @@ class $AppDatabaseManager {
       $$HabitsTableTableManager(_db, _db.habits);
   $$HabitCompletionsTableTableManager get habitCompletions =>
       $$HabitCompletionsTableTableManager(_db, _db.habitCompletions);
+  $$TreatmentPlansTableTableManager get treatmentPlans =>
+      $$TreatmentPlansTableTableManager(_db, _db.treatmentPlans);
   $$WorkoutSessionsTableTableManager get workoutSessions =>
       $$WorkoutSessionsTableTableManager(_db, _db.workoutSessions);
 }
