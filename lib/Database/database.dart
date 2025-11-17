@@ -19,13 +19,29 @@ part 'database.g.dart';
   HealthMetrics,
   Habits,
   HabitCompletions,
+  TreatmentPlans,
   WorkoutSessions,
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      onCreate: (Migrator m) async {
+        await m.createAll();
+      },
+      onUpgrade: (Migrator m, int from, int to) async {
+        if (from < 2) {
+          await m.createTable(treatmentPlans);
+          await m.addColumn(workoutSessions, workoutSessions.treatmentPlanId);
+          await m.addColumn(workoutSessions, workoutSessions.sessionNumber);
+        }
+      },
+    );
+  }
 
   static QueryExecutor _openConnection() {
     return LazyDatabase(() async {
@@ -324,28 +340,145 @@ class AppDatabase extends _$AppDatabase {
   Future<int> deleteHabitCompletion(int id) =>
       (delete(habitCompletions)..where((c) => c.id.equals(id))).go();
 
-  //===============WorkoutSessions============================
+  // ========== TREATMENT PLANS ==========
 
+  /// Get active treatment plan for patient
+  Future<TreatmentPlan?> getActiveTreatmentPlan({int? patientId}) async {
+    final query = select(treatmentPlans)
+      ..where((t) => t.isActive.equals(true));
+
+    if (patientId != null) {
+      query.where((t) => t.patientId.equals(patientId));
+    }
+
+    return await query.getSingleOrNull();
+  }
+
+  /// Create new treatment plan
+  Future<int> createTreatmentPlan({
+    int? patientId,
+    required String injuryType,
+    required String injuryName,
+    int totalSessions = 12,
+  }) async {
+    // Deactivate any existing plans
+    await (update(treatmentPlans)
+      ..where((t) => t.isActive.equals(true)))
+        .write(const TreatmentPlansCompanion(
+      isActive: Value(false),
+    ));
+
+    // Create new plan
+    return await into(treatmentPlans).insert(
+      TreatmentPlansCompanion.insert(
+        patientId: Value(patientId),
+        injuryType: injuryType,
+        injuryName: injuryName,
+        totalSessions: Value(totalSessions),
+        startDate: DateTime.now(),
+        targetEndDate: Value(DateTime.now().add(const Duration(days: 84))), // ~12 weeks
+      ),
+    );
+  }
+
+  /// Check if user has an active plan
+  Future<bool> hasActiveTreatmentPlan() async {
+    final plan = await getActiveTreatmentPlan();
+    return plan != null;
+  }
+
+  /// Get all treatment plans (history)
+  Future<List<TreatmentPlan>> getAllTreatmentPlans({int? patientId}) async {
+    final query = select(treatmentPlans)
+      ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]);
+
+    if (patientId != null) {
+      query.where((t) => t.patientId.equals(patientId));
+    }
+
+    return await query.get();
+  }
+
+  // ========== WORKOUT SESSIONS (UPDATED) ==========
+
+  /// Insert workout session and update plan progress
   Future<int> insertWorkoutSession({
+    required int treatmentPlanId,
     required String category,
     required String categoryName,
+    required int sessionNumber,
     required int painLevel,
     required int stiffness,
     String? notes,
     required DateTime completedAt,
   }) async {
-    return await into(workoutSessions).insert(
+    // Insert session
+    final sessionId = await into(workoutSessions).insert(
       WorkoutSessionsCompanion.insert(
+        treatmentPlanId: Value(treatmentPlanId),
         category: category,
         categoryName: categoryName,
+        sessionNumber: sessionNumber,
         painLevel: painLevel,
         stiffness: stiffness,
         notes: Value(notes),
         completedAt: completedAt,
       ),
     );
+
+    // Update plan progress
+    final plan = await (select(treatmentPlans)
+      ..where((t) => t.id.equals(treatmentPlanId))).getSingle();
+
+    await (update(treatmentPlans)
+      ..where((t) => t.id.equals(treatmentPlanId)))
+        .write(TreatmentPlansCompanion(
+      completedSessions: Value(plan.completedSessions + 1),
+    ));
+
+    return sessionId;
+  }
+
+  /// Get all sessions for a treatment plan
+  Future<List<WorkoutSession>> getWorkoutSessionsByPlan(int planId) async {
+    return await (select(workoutSessions)
+      ..where((s) => s.treatmentPlanId.equals(planId))
+      ..orderBy([(s) => OrderingTerm.asc(s.sessionNumber)]))
+        .get();
+  }
+
+  /// Get next session number for plan
+  Future<int> getNextSessionNumber(int planId) async {
+    final sessions = await getWorkoutSessionsByPlan(planId);
+    return sessions.length + 1;
+  }
+
+  /// Get treatment plan with progress
+  Future<Map<String, dynamic>> getTreatmentPlanProgress() async {
+    final plan = await getActiveTreatmentPlan();
+
+    if (plan == null) {
+      return {
+        'hasPlan': false,
+        'progress': 0.0,
+        'completedSessions': 0,
+        'totalSessions': 12,
+      };
+    }
+
+    return {
+      'hasPlan': true,
+      'plan': plan,
+      'progress': plan.completedSessions / plan.totalSessions,
+      'completedSessions': plan.completedSessions,
+      'totalSessions': plan.totalSessions,
+      'injuryType': plan.injuryType,
+      'injuryName': plan.injuryName,
+    };
   }
 }
+
+
 
 // --- NUEVO: Eventos y Recordatorios ---
 class Events extends Table {

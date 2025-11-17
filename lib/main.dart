@@ -13,12 +13,12 @@ import 'screens/dashboard_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/signup.dart';
 import 'screens/signin.dart';
+import 'widgets/injury_selection_screen.dart';
 import 'widgets/streak_badge.dart';
 import 'services/database_service.dart';
 import 'services/notification_service.dart';
-import 'services/native_notify_bridge.dart'; // ⭐ NUEVO
+import 'services/native_notify_bridge.dart';
 
-// 👇 NUEVO (segundo script): pantallas extra
 import 'screens/health_register_english.dart';
 import 'screens/doctor_feedback_screen.dart';
 
@@ -38,13 +38,13 @@ Future<void> setAppLanguage(String code) async {
 Future<void> useSystemLanguage() async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.remove('appLocale');
-  localeNotifier.value = null; // vuelve a seguir el sistema
+  localeNotifier.value = null;
 }
 
 // Iniciar sesión con Google
 Future<UserCredential?> signInWithGoogle() async {
   final gsi.GoogleSignInAccount? googleUser = await gsi.GoogleSignIn().signIn();
-  if (googleUser == null) return null; // cancelado por el usuario
+  if (googleUser == null) return null;
 
   final gsi.GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
@@ -63,22 +63,17 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  // ⭐ Asegurar canal de IMPORTANCE_HIGH una sola vez (heads-up)
-  //    Esto crea un canal nuevo (p.ej. "wellq_high_v1") si no existe.
   await NativeNotifyBridge.ensureHighImportanceChannel(
     id: 'wellq_high_v1',
     name: 'Recordatorios (WellQ)',
     description: 'Recordatorios y hábitos',
   );
 
-  // >>> Inicializar zona horaria + notificaciones y pedir permiso una vez
   await NotificationService().ensureTimezoneInitialized();
   await NotificationService().init();
   await NotificationService().requestPermissionIfNeeded();
-  // <<<
 
   // Inicializar Base de Datos Drift
-  // print para diagnóstico
   print('Inicializando base de datos...');
   await DatabaseService().initialize();
 
@@ -99,7 +94,7 @@ void main() async {
   if (savedLocaleCode != null && savedLocaleCode.isNotEmpty) {
     localeNotifier.value = Locale(savedLocaleCode);
   } else {
-    localeNotifier.value = null; // seguir idioma del sistema
+    localeNotifier.value = null;
   }
 
   runApp(const MyApp());
@@ -119,7 +114,7 @@ class MyApp extends StatelessWidget {
           valueListenable: localeNotifier,
           builder: (_, appLocale, __) {
             return MaterialApp(
-              debugShowCheckedModeBanner: false, // 👈 añadido del segundo script
+              debugShowCheckedModeBanner: false,
               title: 'WellQ',
 
               // Idioma
@@ -140,21 +135,20 @@ class MyApp extends StatelessWidget {
                 );
               },
 
-              // Tema (definiciones al final)
+              // Tema
               themeMode: mode,
               theme: buildLightTheme(),
               darkTheme: buildDarkTheme(),
 
-              // 🔹 Arranca en HomePage y define rutas que usan tus pantallas importadas
-              initialRoute: '/',
+              // ⭐ CAMBIADO: Ahora usa InitialRouteHandler
+              home: const InitialRouteHandler(),
               routes: {
-                '/': (_) => const HomePage(),
+                '/home': (_) => const HomePage(),
                 '/dashboard': (_) => const DashboardScreen(),
                 '/settings': (_) => SettingsScreen(),
                 '/signup': (_) => SignUpScreen(),
                 '/signin': (_) => const SignInScreen(),
-
-                // 👇 añadidas del segundo script
+                '/injurySelection': (_) => const InjurySelectionScreen(), // ← NUEVA RUTA
                 '/healthRegisterEnglish': (_) => const HealthRegisterEnglishScreen(),
                 '/doctorFeedback': (_) => const DoctorFeedbackScreen(),
               },
@@ -166,22 +160,72 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// ----------------------- HomePage -----------------------
+// ⭐ NUEVA CLASE: Manejador de rutas inicial
+class InitialRouteHandler extends StatelessWidget {
+  const InitialRouteHandler({super.key});
+
+  Future<String> _determineInitialRoute() async {
+    // 1. Verificar si hay usuario logueado
+    final user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      // No hay usuario → HomePage (login/signup)
+      return '/home';
+    }
+
+    // 2. Usuario logueado → verificar si tiene plan de tratamiento activo
+    final db = DatabaseService().database;
+    final hasActivePlan = await db.hasActiveTreatmentPlan();
+
+    if (hasActivePlan) {
+      // Tiene plan → Dashboard
+      return '/dashboard';
+    } else {
+      // No tiene plan → Onboarding de lesión
+      return '/injurySelection';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<String>(
+      future: _determineInitialRoute(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        final route = snapshot.data ?? '/home';
+
+        // Navegar a la ruta determinada
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (ModalRoute.of(context)?.isCurrent == true) {
+            Navigator.pushReplacementNamed(context, route);
+          }
+        });
+
+        return const Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      },
+    );
+  }
+}
+
+// ----------------------- HomePage (SIN CAMBIOS) -----------------------
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Si ya hay usuario logueado, salta directo al dashboard
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final user = FirebaseAuth.instance.currentUser;
-      if (user != null && ModalRoute.of(context)?.isCurrent == true) {
-        Navigator.pushReplacementNamed(context, '/dashboard');
-      }
-    });
-
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final l10n = AppLocalizations.of(context); // ← textos localizados
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       body: Container(
@@ -246,7 +290,7 @@ class HomePage extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          l10n.tagline, // ← 'Your Health, Our Priority'
+          l10n.tagline,
           style: TextStyle(
             fontSize: 16,
             color: isDark ? Colors.grey[400] : Colors.grey[600],
@@ -270,7 +314,9 @@ class HomePage extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: isDark ? Colors.black.withValues(alpha: 0.3) : Colors.black.withValues(alpha: 0.06),
+            color: isDark
+                ? Colors.black.withValues(alpha: 0.3)
+                : Colors.black.withValues(alpha: 0.06),
             blurRadius: 24,
             offset: const Offset(0, 8),
           ),
@@ -281,28 +327,41 @@ class HomePage extends StatelessWidget {
         children: [
           _buildPrimaryButton(
             context,
-            text: l10n.signUp, // ← localizado
+            text: l10n.signUp,
             onPressed: () => Navigator.pushNamed(context, '/signup'),
           ),
           const SizedBox(height: 16),
           _buildSecondaryButton(
             context,
-            text: l10n.signIn, // ← localizado
+            text: l10n.signIn,
             onPressed: () => Navigator.pushNamed(context, '/signin'),
             isDark: isDark,
           ),
           const SizedBox(height: 32),
           Row(
             children: [
-              Expanded(child: Container(height: 1, color: isDark ? Colors.grey[700] : Colors.grey[300])),
+              Expanded(
+                child: Container(
+                  height: 1,
+                  color: isDark ? Colors.grey[700] : Colors.grey[300],
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  l10n.orContinueWith, // ← localizado
-                  style: TextStyle(fontSize: 14, color: isDark ? Colors.grey[400] : Colors.grey[600]),
+                  l10n.orContinueWith,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: isDark ? Colors.grey[400] : Colors.grey[600],
+                  ),
                 ),
               ),
-              Expanded(child: Container(height: 1, color: isDark ? Colors.grey[700] : Colors.grey[300])),
+              Expanded(
+                child: Container(
+                  height: 1,
+                  color: isDark ? Colors.grey[700] : Colors.grey[300],
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 24),
@@ -314,18 +373,29 @@ class HomePage extends StatelessWidget {
                 onPressed: () async {
                   try {
                     final cred = await signInWithGoogle();
-                    if (cred != null) {
-                      // ignore: use_build_context_synchronously
-                      Navigator.pushReplacementNamed(context, '/dashboard');
+                    if (cred != null && context.mounted) {
+                      // ⭐ CAMBIADO: Después de login con Google, verificar si tiene plan
+                      final db = DatabaseService().database;
+                      final hasActivePlan = await db.hasActiveTreatmentPlan();
+
+                      if (hasActivePlan) {
+                        Navigator.pushReplacementNamed(context, '/dashboard');
+                      } else {
+                        Navigator.pushReplacementNamed(context, '/injurySelection');
+                      }
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(l10n.loginCanceled)),
-                      );
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(l10n.loginCanceled)),
+                        );
+                      }
                     }
                   } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('${l10n.loginError}: $e')),
-                    );
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('${l10n.loginError}: $e')),
+                      );
+                    }
                   }
                 },
                 isDark: isDark,
@@ -382,7 +452,11 @@ class HomePage extends StatelessWidget {
           child: Center(
             child: Text(
               text,
-              style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600),
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),
@@ -411,7 +485,11 @@ class HomePage extends StatelessWidget {
           child: Center(
             child: Text(
               text,
-              style: const TextStyle(color: Color(0xFF22D3A6), fontSize: 16, fontWeight: FontWeight.w600),
+              style: const TextStyle(
+                color: Color(0xFF22D3A6),
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ),
@@ -451,62 +529,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class _LogoDiamond extends StatelessWidget {
-  final double size;
-  const _LogoDiamond({required this.size});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: size,
-      height: size,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Transform.rotate(
-            angle: 0.785398, // 45°
-            child: Container(
-              width: size,
-              height: size,
-              decoration: BoxDecoration(
-                color: const Color(0xFF15C492),
-                borderRadius: BorderRadius.circular(size * 0.18),
-              ),
-            ),
-          ),
-          const Icon(Icons.bolt_rounded, size: 14, color: Colors.white),
-        ],
-      ),
-    );
-  }
-}
-
-class _IconPill extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onTap;
-  const _IconPill({required this.icon, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return InkWell(
-      borderRadius: BorderRadius.circular(12),
-      onTap: onTap,
-      child: Container(
-        height: 32,
-        width: 32,
-        decoration: BoxDecoration(
-          color: cs.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: cs.outlineVariant),
-        ),
-        child: Icon(icon, size: 18, color: cs.onSurface),
-      ),
-    );
-  }
-}
-
-// ================== Temas “mejorados” del segundo script ==================
+// ================== Temas (SIN CAMBIOS) ==================
 ThemeData buildLightTheme() {
   return ThemeData(
     brightness: Brightness.light,
@@ -580,8 +603,3 @@ ThemeData buildDarkTheme() {
     ),
   );
 }
-
-
-
-
-

@@ -860,9 +860,9 @@ class HealthDataService extends ChangeNotifier {
   void _loadMockData() {
     steps = _mockData['steps'] as int;
     heartRate = _mockData['heartRate'] as int;
-    weight = _mockData['weight'] as double;
-    sleepHours = _mockData['sleepHours'] as double;
-    waterIntake = _mockData['waterIntake'] as double;
+    weight = (_mockData['weight'] as num).toDouble();
+    sleepHours = (_mockData['sleepHours'] as num).toDouble();
+    waterIntake = (_mockData['waterIntake'] as num).toDouble();
     caloriesIntake = _mockData['caloriesIntake'] as int;
     usingMockData = true;
     debugPrint('📊 Using mock data');

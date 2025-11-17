@@ -105,11 +105,27 @@ class HabitCompletions extends Table {
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }
 
+// TreatmentPlans - Plan de 12 sesiones por lesión
+class TreatmentPlans extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get patientId => integer().references(Patients, #id).nullable()();
+  TextColumn get injuryType => text()(); // 'A', 'B', 'C'
+  TextColumn get injuryName => text()(); // 'Ligament Tear', 'Rotator Cuff', 'Tendinitis'
+  IntColumn get totalSessions => integer().withDefault(const Constant(12))();
+  IntColumn get completedSessions => integer().withDefault(const Constant(0))();
+  BoolColumn get isActive => boolean().withDefault(const Constant(true))();
+  DateTimeColumn get startDate => dateTime()();
+  DateTimeColumn get targetEndDate => dateTime().nullable()();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
+}
+
 // WorkoutSessions - Para ejercicios de recuperación
 class WorkoutSessions extends Table {
   IntColumn get id => integer().autoIncrement()();
+  IntColumn get treatmentPlanId => integer().references(TreatmentPlans, #id).nullable()();
   TextColumn get category => text()(); // 'A', 'B', 'C'
-  TextColumn get categoryName => text()(); // 'Rotura de ligamento', etc.
+  TextColumn get categoryName => text()();
+  IntColumn get sessionNumber => integer()(); // 1-12
   IntColumn get painLevel => integer()();
   IntColumn get stiffness => integer()();
   TextColumn get notes => text().nullable()();
