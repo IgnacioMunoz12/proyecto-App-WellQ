@@ -12,6 +12,7 @@ import 'calendar_screen.dart';
 import 'commit_screen.dart';
 import 'settings_screen.dart';
 import '../l10n/app_localizations.dart';
+import '../services/api_service.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -497,6 +498,29 @@ class _DashboardScreenState extends State<DashboardScreen> with WidgetsBindingOb
                     child: _PillButtonDark(
                       label: l10n.refreshData,
                       onPressed: () async {
+                        // Enviar datos de ejemplo a la API
+                        final success = await ApiService.sendHealthRegister({
+                          "fullName": "John Doe",
+                          "email": "john@example.com",
+                          "height": 175,
+                          "weight": 70,
+                          "activityLevel": "Moderate",
+                          "injuryType": "Lower Back",
+                          "trainingDays": 4,
+                        });
+
+                        // Mostrar notificación visual según el resultado
+                        if (success) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('✅ Datos enviados al servidor')),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('❌ Error al enviar datos')),
+                          );
+                        }
+
+                        // Mantener comportamiento original (actualización local)
                         await healthService.fetchAllHealthData();
                         await healthService.fetchHeartRate();
                         setState(() {});
